@@ -4,7 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/types/models';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import Button from '@/components/ui/Button';
+import { Heart } from 'react-feather';
 
 interface ProductCardProps {
   product: Product;
@@ -27,6 +29,29 @@ const ImageContainer = styled.div`
   position: relative;
   height: 200px;
   width: 100%;
+`;
+
+const WishlistButton = styled.button<{ $active: boolean }>`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: ${({ theme, $active }) => $active ? theme.colors.primary : 'rgba(255, 255, 255, 0.8)'};
+  color: ${({ theme, $active }) => $active ? theme.colors.light : theme.colors.primary};
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: ${({ theme, $active }) => $active ? theme.colors.primaryDark : 'rgba(255, 255, 255, 1)'};
+    transform: scale(1.1);
+  }
 `;
 
 const ProductContent = styled.div`
@@ -62,7 +87,10 @@ const ButtonsContainer = styled.div`
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = React.useState(false);
+  const isProductInWishlist = isInWishlist(product.id);
   
   const handleAddToCart = async () => {
     try {
@@ -72,6 +100,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       console.error('Failed to add to cart:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleWishlistClick = async () => {
+    try {
+      setIsWishlistLoading(true);
+      if (isProductInWishlist) {
+        await removeFromWishlist(product.id);
+      } else {
+        await addToWishlist(product.id);
+      }
+    } catch (error) {
+      console.error('Failed to update wishlist:', error);
+    } finally {
+      setIsWishlistLoading(false);
     }
   };
   
@@ -86,6 +129,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               layout="fill"
               objectFit="cover"
             />
+            <WishlistButton 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleWishlistClick();
+              }}
+              $active={isProductInWishlist}
+              disabled={isWishlistLoading}
+            >
+              <Heart 
+                size={18} 
+                fill={isProductInWishlist ? 'white' : 'none'} 
+              />
+            </WishlistButton>
           </ImageContainer>
         </a>
       </Link>

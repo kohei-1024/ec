@@ -25,6 +25,11 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/cart": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/cart.js"
+    ],
     "/products": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -34,6 +39,11 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/products/[id].js"
+    ],
+    "/wishlist": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/wishlist.js"
     ]
   },
   "ampFirstPages": []

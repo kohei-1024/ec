@@ -4,7 +4,7 @@ import { Layout } from '@/components/layout';
 import { useCart } from '@/contexts/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 

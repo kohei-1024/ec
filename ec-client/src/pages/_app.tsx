@@ -8,6 +8,7 @@ import GlobalStyles from '@/styles/globalStyles';
 import apolloClient from '@/lib/apollo-client';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CartProvider } from '@/contexts/CartContext';
+import { WishlistProvider } from '@/contexts/WishlistContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -23,7 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <GlobalStyles />
           <AuthProvider>
             <CartProvider>
-              <Component {...pageProps} />
+              <WishlistProvider>
+                <Component {...pageProps} />
+              </WishlistProvider>
             </CartProvider>
           </AuthProvider>
         </ThemeProvider>

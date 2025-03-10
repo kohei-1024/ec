@@ -9,6 +9,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { Heart } from 'react-feather';
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
 // Mock data for development
@@ -186,6 +188,28 @@ const ProductActions = styled.div`
   }
 `;
 
+const WishlistButton = styled(Button)<{ $isInWishlist: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  
+  svg {
+    transition: all 0.2s ease;
+  }
+  
+  ${({ $isInWishlist, theme }) => $isInWishlist && `
+    background-color: ${theme.colors.primary};
+    color: white;
+    border-color: ${theme.colors.primary};
+    
+    &:hover {
+      background-color: ${theme.colors.primaryDark};
+      border-color: ${theme.colors.primaryDark};
+    }
+  `}
+`;
+
 const QuantitySelector = styled.div`
   display: flex;
   align-items: center;
@@ -280,7 +304,9 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -357,6 +383,23 @@ const ProductDetailPage = () => {
       console.error('Failed to add to cart:', error);
     } finally {
       setIsAddingToCart(false);
+    }
+  };
+  
+  const handleWishlistToggle = async () => {
+    if (!product) return;
+    
+    try {
+      setIsWishlistLoading(true);
+      if (isInWishlist(product.id)) {
+        await removeFromWishlist(product.id);
+      } else {
+        await addToWishlist(product.id);
+      }
+    } catch (error) {
+      console.error('Failed to update wishlist:', error);
+    } finally {
+      setIsWishlistLoading(false);
     }
   };
   
@@ -479,6 +522,23 @@ const ProductDetailPage = () => {
             >
               {isAddingToCart ? 'Adding...' : 'Add to Cart'}
             </Button>
+            
+            <WishlistButton 
+              onClick={handleWishlistToggle}
+              disabled={isWishlistLoading}
+              variant="outlined"
+              $isInWishlist={isInWishlist(product.id)}
+            >
+              {isWishlistLoading ? 'Updating...' : (
+                <>
+                  <Heart 
+                    size={16} 
+                    fill={isInWishlist(product.id) ? 'currentColor' : 'none'} 
+                  />
+                  {isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                </>
+              )}
+            </WishlistButton>
           </ProductActions>
           
           <ProductDescription>

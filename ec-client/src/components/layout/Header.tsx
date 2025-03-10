@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Heart, ShoppingCart, User } from 'react-feather';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { useCart } from '@/contexts/CartContext';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -87,15 +90,38 @@ const IconButton = styled.button`
   font-size: ${({ theme }) => theme.fontSizes.lg};
   color: ${({ theme }) => theme.colors.text};
   transition: ${({ theme }) => theme.transitions.default};
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
+const Badge = styled.span`
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+`;
+
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
+  const { items: wishlistItems } = useWishlist();
+  const { cart } = useCart();
   
   const isActive = (path: string) => router.pathname === path;
   
@@ -129,17 +155,23 @@ const Header: React.FC = () => {
       <ActionsContainer>
         <Link href="/cart" passHref legacyBehavior>
           <IconButton as="a" aria-label="Cart">
-            🛒
+            <ShoppingCart size={20} />
+            {cart?.items?.length > 0 && (
+              <Badge>{cart.items.length}</Badge>
+            )}
           </IconButton>
         </Link>
         <Link href="/wishlist" passHref legacyBehavior>
           <IconButton as="a" aria-label="Wishlist">
-            ❤️
+            <Heart size={20} />
+            {wishlistItems?.length > 0 && (
+              <Badge>{wishlistItems.length}</Badge>
+            )}
           </IconButton>
         </Link>
-        <Link href="/account" passHref legacyBehavior>
+        <Link href="/profile" passHref legacyBehavior>
           <IconButton as="a" aria-label="Account">
-            👤
+            <User size={20} />
           </IconButton>
         </Link>
       </ActionsContainer>
@@ -167,8 +199,8 @@ const Header: React.FC = () => {
         <Link href="/wishlist" passHref legacyBehavior>
           <NavLink $active={isActive('/wishlist')}>Wishlist</NavLink>
         </Link>
-        <Link href="/account" passHref legacyBehavior>
-          <NavLink $active={isActive('/account')}>Account</NavLink>
+        <Link href="/profile" passHref legacyBehavior>
+          <NavLink $active={isActive('/profile')}>Profile</NavLink>
         </Link>
       </MobileMenu>
     </HeaderContainer>
