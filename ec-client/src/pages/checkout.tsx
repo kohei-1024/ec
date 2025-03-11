@@ -284,7 +284,7 @@ const CheckoutPage = () => {
       'city',
       'state',
       'zipCode',
-    ];
+    ] as const;
     requiredFields.forEach(field => {
       if (!formData[field]) {
         newErrors[field] = 'This field is required';

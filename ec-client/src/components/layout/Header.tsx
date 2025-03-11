@@ -156,7 +156,7 @@ const Header: React.FC = () => {
         <Link href="/cart" passHref legacyBehavior>
           <IconButton as="a" aria-label="Cart">
             <ShoppingCart size={20} />
-            {cart?.items?.length > 0 && <Badge>{cart.items.length}</Badge>}
+            {(cart?.items?.length ?? 0) > 0 && <Badge>{cart?.items?.length ?? 0}</Badge>}
           </IconButton>
         </Link>
         <Link href="/wishlist" passHref legacyBehavior>

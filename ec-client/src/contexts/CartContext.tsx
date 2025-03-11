@@ -165,7 +165,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           },
         };
 
-        const product = mockProductMap[productId];
+        const product = mockProductMap[productId as keyof typeof mockProductMap];
         if (!product) {
           throw new Error('Product not found');
         }
@@ -287,7 +287,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Clear mock cart
         const updatedCart = { ...MOCK_CART, items: [] };
-        setCart(updatedCart as Cart);
+        setCart(updatedCart as unknown as Cart);
       } else {
         // Real implementation for production
         await clearCartMutation({

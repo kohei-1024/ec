@@ -12,9 +12,10 @@ import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { Heart } from 'react-feather';
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { Product } from '@/types/models';
 
 // Mock data for development
-const MOCK_PRODUCTS = {
+const MOCK_PRODUCTS: { [key: string]: Product } = {
   '1': {
     id: '1',
     name: 'Wireless Headphones',
@@ -206,7 +207,7 @@ const WishlistButton = styled(Button)<{ $isInWishlist: boolean }>`
     background-color: ${theme.colors.primary};
     color: white;
     border-color: ${theme.colors.primary};
-    
+
     &:hover {
       background-color: ${theme.colors.primaryDark};
       border-color: ${theme.colors.primaryDark};

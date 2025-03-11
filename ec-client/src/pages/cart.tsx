@@ -304,8 +304,8 @@ const CartPage = () => {
           <CartTitle>Your Cart</CartTitle>
           <CartEmpty>
             <p>Your cart is empty</p>
-            <Link href="/products" passHref legacyBehavior>
-              <Button as="a" variant="primary">
+            <Link href="/products" className='inline-block'>
+              <Button variant="primary">
                 Start Shopping
               </Button>
             </Link>

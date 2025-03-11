@@ -2,12 +2,13 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { Product } from '@/types/models';
 import { useAuth } from './AuthContext';
+// import { Badge } from '@/components/Badge';
 
 // Define these GraphQL mutations later
 // import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, GET_WISHLIST } from '@/graphql/mutations/wishlist';
 
 // Mock data for development
-const MOCK_PRODUCTS = {
+const MOCK_PRODUCTS: { [key: string]: Product } = {
   '1': {
     id: '1',
     name: 'Wireless Headphones',
@@ -144,7 +145,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
       // For development, use mock data
       if (process.env.NODE_ENV === 'development') {
-        const product = MOCK_PRODUCTS[productId];
+        const product = MOCK_PRODUCTS[productId as keyof typeof MOCK_PRODUCTS];
         if (!product) {
           throw new Error('Product not found');
         }
@@ -154,7 +155,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
         // Check if product is already in wishlist
         if (!items.some(item => item.id === productId)) {
-          setItems(prevItems => [...prevItems, product]);
+          setItems(prevItems => [...prevItems, product as Product]);
         }
       } else {
         // For production, use GraphQL mutation

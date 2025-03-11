@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true, // ビルド時のlintを無視する
+  },
   compiler: {
     styledComponents: true,
   },

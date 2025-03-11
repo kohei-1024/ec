@@ -15,8 +15,8 @@ export interface Category {
   parent?: Category | null;
   children?: Category[];
   products?: Product[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Product {

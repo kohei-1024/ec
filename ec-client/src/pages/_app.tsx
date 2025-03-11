@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={theme}>
-          <GlobalStyles />
+          <GlobalStyles theme={theme} />
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>

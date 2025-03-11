@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     role: 'CUSTOMER',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  };
+  } as const;
 
   const [user, setUser] = useState<User | null>(initialUser);
   const [token, setToken] = useState<string | null>('mock-token-123');
