@@ -93,11 +93,7 @@ export const GET_CATEGORY = gql`
 
 export const GET_FEATURED_PRODUCTS = gql`
   query GetFeaturedProducts($limit: Int = 4) {
-    products(
-      limit: $limit
-      sortBy: "createdAt"
-      sortDirection: "desc"
-    ) {
+    products(limit: $limit, sortBy: "createdAt", sortDirection: "desc") {
       edges {
         id
         name

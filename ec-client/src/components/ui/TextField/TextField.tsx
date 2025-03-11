@@ -30,11 +30,11 @@ const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.colors.gray};
-  
+
   &.start-icon {
     left: ${({ theme }) => theme.spacing.md};
   }
-  
+
   &.end-icon {
     right: ${({ theme }) => theme.spacing.md};
   }
@@ -47,24 +47,25 @@ const StyledInput = styled.input<{ error?: string; hasStartIcon?: boolean; hasEn
   border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.colors.light};
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:focus {
     outline: none;
     border-color: ${({ theme, error }) => (error ? theme.colors.error : theme.colors.primary)};
-    box-shadow: 0 0 0 1px ${({ theme, error }) => (error ? theme.colors.error : theme.colors.primary)};
+    box-shadow: 0 0 0 1px
+      ${({ theme, error }) => (error ? theme.colors.error : theme.colors.primary)};
   }
-  
+
   &:disabled {
     background-color: ${({ theme }) => theme.colors.lightGray};
     cursor: not-allowed;
   }
-  
+
   ${({ hasStartIcon, theme }) =>
     hasStartIcon &&
     css`
       padding-left: ${theme.spacing.xxl};
     `}
-  
+
   ${({ hasEndIcon, theme }) =>
     hasEndIcon &&
     css`
@@ -83,23 +84,12 @@ const ErrorMessage = styled.div`
 `;
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ 
-    label, 
-    error, 
-    fullWidth, 
-    startIcon, 
-    endIcon, 
-    ...rest 
-  }, ref) => {
+  ({ label, error, fullWidth, startIcon, endIcon, ...rest }, ref) => {
     return (
       <InputWrapper fullWidth={fullWidth}>
         {label && <InputLabel>{label}</InputLabel>}
         <div style={{ position: 'relative' }}>
-          {startIcon && (
-            <IconWrapper className="start-icon">
-              {startIcon}
-            </IconWrapper>
-          )}
+          {startIcon && <IconWrapper className="start-icon">{startIcon}</IconWrapper>}
           <StyledInput
             ref={ref}
             error={error}
@@ -107,11 +97,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             hasEndIcon={!!endIcon}
             {...rest}
           />
-          {endIcon && (
-            <IconWrapper className="end-icon">
-              {endIcon}
-            </IconWrapper>
-          )}
+          {endIcon && <IconWrapper className="end-icon">{endIcon}</IconWrapper>}
         </div>
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </InputWrapper>

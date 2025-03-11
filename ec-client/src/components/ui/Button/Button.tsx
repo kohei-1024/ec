@@ -119,22 +119,22 @@ const StyledButton = styled.button<ButtonProps>`
   cursor: pointer;
   outline: none;
   border: none;
-  
+
   /* Apply variant styles */
   ${({ variant = 'primary' }) => getButtonStyles(variant)}
-  
+
   /* Apply size styles */
   ${({ size = 'medium' }) => getButtonSize(size)}
   
   /* Full width */
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
-  
+
   /* Disabled state */
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
   }
-  
+
   /* Loading state */
   ${({ isLoading }) =>
     isLoading &&
@@ -142,7 +142,7 @@ const StyledButton = styled.button<ButtonProps>`
       position: relative;
       color: transparent;
       pointer-events: none;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -157,7 +157,7 @@ const StyledButton = styled.button<ButtonProps>`
         border-color: transparent transparent currentColor currentColor;
         animation: button-loading-spinner 0.8s linear infinite;
       }
-      
+
       @keyframes button-loading-spinner {
         from {
           transform: translate(-50%, -50%) rotate(0deg);

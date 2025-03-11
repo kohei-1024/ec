@@ -36,7 +36,7 @@ const ErrorMessage = styled.div`
 const SignUpLink = styled.p`
   text-align: center;
   margin-top: ${({ theme }) => theme.spacing.lg};
-  
+
   a {
     color: ${({ theme }) => theme.colors.primary};
     text-decoration: underline;
@@ -48,25 +48,25 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { login, error: authError } = useAuth();
   const router = useRouter();
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Simple validation
     if (!email || !password) {
       setFormError('Please enter both email and password');
       return;
     }
-    
+
     try {
       setIsLoading(true);
       setFormError(null);
-      
+
       await login({ email, password });
-      
+
       // Redirect to home page after successful login
       router.push('/');
     } catch (error) {
@@ -75,53 +75,44 @@ const LoginPage: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <Layout>
       <FormContainer>
         <FormTitle>Login</FormTitle>
-        
-        {(formError || authError) && (
-          <ErrorMessage>
-            {formError || authError}
-          </ErrorMessage>
-        )}
-        
+
+        {(formError || authError) && <ErrorMessage>{formError || authError}</ErrorMessage>}
+
         <form onSubmit={handleSubmit}>
           <FormGroup>
             <TextField
               label="Email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               fullWidth
               required
               placeholder="Enter your email"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <TextField
               label="Password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               fullWidth
               required
               placeholder="Enter your password"
             />
           </FormGroup>
-          
-          <Button
-            type="submit"
-            fullWidth
-            isLoading={isLoading}
-            variant="primary"
-          >
+
+          <Button type="submit" fullWidth isLoading={isLoading} variant="primary">
             Login
           </Button>
         </form>
-        
+
         <SignUpLink>
           Don't have an account? <Link href="/register">Sign up</Link>
         </SignUpLink>

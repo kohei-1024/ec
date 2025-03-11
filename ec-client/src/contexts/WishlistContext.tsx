@@ -11,71 +11,73 @@ const MOCK_PRODUCTS = {
   '1': {
     id: '1',
     name: 'Wireless Headphones',
-    description: 'Premium wireless headphones with noise cancellation technology. Enjoy crystal-clear sound and extended battery life for all-day listening.',
+    description:
+      'Premium wireless headphones with noise cancellation technology. Enjoy crystal-clear sound and extended battery life for all-day listening.',
     price: 129.99,
     stock: 15,
     images: [
       'https://placehold.co/600x400/4a6cf7/FFFFFF/png?text=Headphones+1',
       'https://placehold.co/600x400/3a5ce7/FFFFFF/png?text=Headphones+2',
-      'https://placehold.co/600x400/2a4cd7/FFFFFF/png?text=Headphones+3'
+      'https://placehold.co/600x400/2a4cd7/FFFFFF/png?text=Headphones+3',
     ],
     category: {
       id: '1',
-      name: 'Electronics'
+      name: 'Electronics',
     },
     createdAt: '2023-01-15T00:00:00Z',
-    updatedAt: '2023-01-15T00:00:00Z'
+    updatedAt: '2023-01-15T00:00:00Z',
   },
   '2': {
     id: '2',
     name: 'Smart Watch',
-    description: 'Feature-packed smartwatch with health monitoring, notifications, and a sleek design. Track your fitness goals and stay connected on the go.',
+    description:
+      'Feature-packed smartwatch with health monitoring, notifications, and a sleek design. Track your fitness goals and stay connected on the go.',
     price: 199.99,
     stock: 8,
     images: [
       'https://placehold.co/600x400/4a6cf7/FFFFFF/png?text=Smart+Watch+1',
-      'https://placehold.co/600x400/3a5ce7/FFFFFF/png?text=Smart+Watch+2'
+      'https://placehold.co/600x400/3a5ce7/FFFFFF/png?text=Smart+Watch+2',
     ],
     category: {
       id: '1',
-      name: 'Electronics'
+      name: 'Electronics',
     },
     createdAt: '2023-02-20T00:00:00Z',
-    updatedAt: '2023-02-20T00:00:00Z'
+    updatedAt: '2023-02-20T00:00:00Z',
   },
   '3': {
     id: '3',
     name: 'Bluetooth Speaker',
-    description: 'Portable Bluetooth speaker with 360° sound and waterproof design. Perfect for outdoor adventures or home use with impressive bass and clarity.',
+    description:
+      'Portable Bluetooth speaker with 360° sound and waterproof design. Perfect for outdoor adventures or home use with impressive bass and clarity.',
     price: 79.99,
     stock: 20,
-    images: [
-      'https://placehold.co/600x400/4a6cf7/FFFFFF/png?text=Speaker+1'
-    ],
+    images: ['https://placehold.co/600x400/4a6cf7/FFFFFF/png?text=Speaker+1'],
     category: {
       id: '1',
-      name: 'Electronics'
+      name: 'Electronics',
     },
     createdAt: '2023-03-10T00:00:00Z',
-    updatedAt: '2023-03-10T00:00:00Z'
+    updatedAt: '2023-03-10T00:00:00Z',
   },
   '4': {
     id: '4',
     name: 'Laptop Stand',
-    description: 'Ergonomic laptop stand with adjustable height and angle. Improve your posture and keep your device cool with the ventilated design.',
+    description:
+      'Ergonomic laptop stand with adjustable height and angle. Improve your posture and keep your device cool with the ventilated design.',
     price: 49.99,
     stock: 25,
     images: [
       'https://placehold.co/600x400/4a6cf7/FFFFFF/png?text=Laptop+Stand+1',
-      'https://placehold.co/600x400/3a5ce7/FFFFFF/png?text=Laptop+Stand+2'
+      'https://placehold.co/600x400/3a5ce7/FFFFFF/png?text=Laptop+Stand+2',
     ],
     category: {
       id: '3',
-      name: 'Home & Garden'
+      name: 'Home & Garden',
     },
     createdAt: '2023-04-05T00:00:00Z',
-    updatedAt: '2023-04-05T00:00:00Z'
-  }
+    updatedAt: '2023-04-05T00:00:00Z',
+  },
 };
 
 type WishlistContextType = {
@@ -100,7 +102,7 @@ const WishlistContext = createContext<WishlistContextType>({
 
 export const useWishlist = () => useContext(WishlistContext);
 
-export const WishlistProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

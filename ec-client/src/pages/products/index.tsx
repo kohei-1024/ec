@@ -21,7 +21,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones'],
       category: { id: '1', name: 'Electronics' },
       createdAt: '2023-01-15T00:00:00Z',
-      updatedAt: '2023-01-15T00:00:00Z'
+      updatedAt: '2023-01-15T00:00:00Z',
     },
     {
       id: '2',
@@ -32,7 +32,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Smart+Watch'],
       category: { id: '1', name: 'Electronics' },
       createdAt: '2023-02-20T00:00:00Z',
-      updatedAt: '2023-02-20T00:00:00Z'
+      updatedAt: '2023-02-20T00:00:00Z',
     },
     {
       id: '3',
@@ -43,7 +43,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker'],
       category: { id: '1', name: 'Electronics' },
       createdAt: '2023-03-10T00:00:00Z',
-      updatedAt: '2023-03-10T00:00:00Z'
+      updatedAt: '2023-03-10T00:00:00Z',
     },
     {
       id: '4',
@@ -54,7 +54,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Laptop+Stand'],
       category: { id: '3', name: 'Home & Garden' },
       createdAt: '2023-04-05T00:00:00Z',
-      updatedAt: '2023-04-05T00:00:00Z'
+      updatedAt: '2023-04-05T00:00:00Z',
     },
     {
       id: '5',
@@ -65,7 +65,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Keyboard'],
       category: { id: '1', name: 'Electronics' },
       createdAt: '2023-05-12T00:00:00Z',
-      updatedAt: '2023-05-12T00:00:00Z'
+      updatedAt: '2023-05-12T00:00:00Z',
     },
     {
       id: '6',
@@ -76,7 +76,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Mouse'],
       category: { id: '1', name: 'Electronics' },
       createdAt: '2023-06-18T00:00:00Z',
-      updatedAt: '2023-06-18T00:00:00Z'
+      updatedAt: '2023-06-18T00:00:00Z',
     },
     {
       id: '7',
@@ -87,7 +87,7 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=USB+Hub'],
       category: { id: '1', name: 'Electronics' },
       createdAt: '2023-07-22T00:00:00Z',
-      updatedAt: '2023-07-22T00:00:00Z'
+      updatedAt: '2023-07-22T00:00:00Z',
     },
     {
       id: '8',
@@ -98,16 +98,16 @@ const MOCK_PRODUCTS = {
       images: ['https://placehold.co/300x200/333333/FFFFFF/png?text=Desk+Organizer'],
       category: { id: '3', name: 'Home & Garden' },
       createdAt: '2023-08-30T00:00:00Z',
-      updatedAt: '2023-08-30T00:00:00Z'
-    }
+      updatedAt: '2023-08-30T00:00:00Z',
+    },
   ],
-  totalCount: 8
+  totalCount: 8,
 };
 
 const MOCK_CATEGORIES = [
   { id: '1', name: 'Electronics', description: 'Electronic devices and accessories' },
   { id: '2', name: 'Clothing', description: 'Apparel and fashion items' },
-  { id: '3', name: 'Home & Garden', description: 'Products for home and outdoor spaces' }
+  { id: '3', name: 'Home & Garden', description: 'Products for home and outdoor spaces' },
 ];
 
 const ProductsContainer = styled.div`
@@ -137,7 +137,7 @@ const SearchFilterContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   align-items: center;
   flex-wrap: wrap;
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 100%;
   }
@@ -146,7 +146,7 @@ const SearchFilterContainer = styled.div`
 // Use a regular div instead of extending TextField to avoid the styled-component error
 const SearchInputWrapper = styled.div`
   min-width: 250px;
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 100%;
   }
@@ -182,7 +182,7 @@ const ProductCard = styled.div`
   background-color: ${({ theme }) => theme.colors.light};
   display: flex;
   flex-direction: column;
-  
+
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.md};
     transform: translateY(-5px);
@@ -234,17 +234,19 @@ const Pagination = styled.div`
 
 const PaginationButton = styled.button<{ $active?: boolean }>`
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
-  border: 1px solid ${({ theme, $active }) => $active ? theme.colors.primary : theme.colors.border};
-  background-color: ${({ theme, $active }) => $active ? theme.colors.primary : 'transparent'};
-  color: ${({ theme, $active }) => $active ? theme.colors.light : theme.colors.text};
+  border: 1px solid
+    ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.border)};
+  background-color: ${({ theme, $active }) => ($active ? theme.colors.primary : 'transparent')};
+  color: ${({ theme, $active }) => ($active ? theme.colors.light : theme.colors.text)};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   min-width: 40px;
   cursor: pointer;
-  
+
   &:hover {
-    background-color: ${({ theme, $active }) => $active ? theme.colors.primary : theme.colors.lightGray};
+    background-color: ${({ theme, $active }) =>
+      $active ? theme.colors.primary : theme.colors.lightGray};
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -274,11 +276,16 @@ const ProductsPage = () => {
   const [categoriesData, setCategoriesData] = useState(null);
   const [productsLoading, setProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState(null);
-  
+
   const ITEMS_PER_PAGE = 8;
-  
+
   // Fetch products from GraphQL in production
-  const { data: gqlProductsData, loading: gqlProductsLoading, error: gqlProductsError, refetch } = useQuery(GET_PRODUCTS, {
+  const {
+    data: gqlProductsData,
+    loading: gqlProductsLoading,
+    error: gqlProductsError,
+    refetch,
+  } = useQuery(GET_PRODUCTS, {
     variables: {
       search: searchTerm || undefined,
       categoryId: categoryFilter || undefined,
@@ -290,83 +297,83 @@ const ProductsPage = () => {
     fetchPolicy: 'network-only',
     skip: process.env.NODE_ENV === 'development', // Skip in development
   });
-  
+
   // Fetch categories from GraphQL in production
   const { data: gqlCategoriesData, loading: gqlCategoriesLoading } = useQuery(GET_CATEGORIES, {
     skip: process.env.NODE_ENV === 'development', // Skip in development
   });
-  
+
   // Use mock data in development, real data in production
   useEffect(() => {
     const fetchData = async () => {
       try {
         setProductsLoading(true);
         setProductsError(null);
-        
+
         if (process.env.NODE_ENV === 'development') {
           // Filter and sort mock products
           let filteredProducts = [...MOCK_PRODUCTS.edges];
-          
+
           // Apply search filter
           if (searchTerm) {
             const searchLower = searchTerm.toLowerCase();
-            filteredProducts = filteredProducts.filter(product => 
-              product.name.toLowerCase().includes(searchLower) ||
-              product.description.toLowerCase().includes(searchLower)
+            filteredProducts = filteredProducts.filter(
+              product =>
+                product.name.toLowerCase().includes(searchLower) ||
+                product.description.toLowerCase().includes(searchLower)
             );
           }
-          
+
           // Apply category filter
           if (categoryFilter) {
-            filteredProducts = filteredProducts.filter(product => 
-              product.category.id === categoryFilter
+            filteredProducts = filteredProducts.filter(
+              product => product.category.id === categoryFilter
             );
           }
-          
+
           // Apply sorting
           filteredProducts.sort((a, b) => {
             if (sortBy === 'name') {
-              return sortDirection === 'asc' 
+              return sortDirection === 'asc'
                 ? a.name.localeCompare(b.name)
                 : b.name.localeCompare(a.name);
             } else if (sortBy === 'price') {
-              return sortDirection === 'asc'
-                ? a.price - b.price
-                : b.price - a.price;
-            } else { // createdAt
+              return sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
+            } else {
+              // createdAt
               return sortDirection === 'asc'
                 ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
                 : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
             }
           });
-          
+
           // Apply pagination
           const start = (currentPage - 1) * ITEMS_PER_PAGE;
           const paginatedProducts = filteredProducts.slice(start, start + ITEMS_PER_PAGE);
-          
+
           // Simulate network delay
           await new Promise(resolve => setTimeout(resolve, 300));
-          
+
           setProductsData({
             products: {
               edges: paginatedProducts,
-              totalCount: filteredProducts.length
-            }
+              totalCount: filteredProducts.length,
+            },
           });
-          
+
           setCategoriesData({
-            categories: MOCK_CATEGORIES
+            categories: MOCK_CATEGORIES,
           });
         } else {
           // In production, use GraphQL data
           if (gqlProductsData) {
             setProductsData(gqlProductsData);
           }
-          
+
           if (gqlCategoriesData) {
             setCategoriesData(gqlCategoriesData);
           }
-          
+
           if (gqlProductsError) {
             setProductsError(gqlProductsError);
           }
@@ -377,22 +384,31 @@ const ProductsPage = () => {
         setProductsLoading(false);
       }
     };
-    
+
     fetchData();
-  }, [searchTerm, categoryFilter, sortBy, sortDirection, currentPage, gqlProductsData, gqlCategoriesData, gqlProductsError]);
-  
+  }, [
+    searchTerm,
+    categoryFilter,
+    sortBy,
+    sortDirection,
+    currentPage,
+    gqlProductsData,
+    gqlCategoriesData,
+    gqlProductsError,
+  ]);
+
   // Handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page on new search
   };
-  
+
   // Handle category filter change
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategoryFilter(e.target.value);
     setCurrentPage(1); // Reset to first page on new filter
   };
-  
+
   // Handle sort change
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const [newSortBy, newSortDirection] = e.target.value.split('-');
@@ -400,28 +416,28 @@ const ProductsPage = () => {
     setSortDirection(newSortDirection);
     setCurrentPage(1); // Reset to first page on new sort
   };
-  
+
   // Handle add to cart
   const handleAddToCart = async (productId: string) => {
     try {
-      setIsAddingToCart((prev) => ({ ...prev, [productId]: true }));
+      setIsAddingToCart(prev => ({ ...prev, [productId]: true }));
       await addToCart(productId, 1);
     } catch (error) {
       console.error('Failed to add to cart:', error);
     } finally {
-      setIsAddingToCart((prev) => ({ ...prev, [productId]: false }));
+      setIsAddingToCart(prev => ({ ...prev, [productId]: false }));
     }
   };
-  
+
   // Calculate total pages
   const totalCount = productsData?.products?.totalCount || 0;
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  
+
   // Generate page numbers for pagination
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxPagesToShow = 5;
-    
+
     if (totalPages <= maxPagesToShow) {
       // Show all pages if there are fewer than maxPagesToShow
       for (let i = 1; i <= totalPages; i++) {
@@ -430,11 +446,11 @@ const ProductsPage = () => {
     } else {
       // Always show first page
       pageNumbers.push(1);
-      
+
       // Determine range around current page
       let rangeStart = Math.max(2, currentPage - 1);
       let rangeEnd = Math.min(totalPages - 1, currentPage + 1);
-      
+
       // Adjust range to always show 3 pages
       if (rangeEnd - rangeStart < 2) {
         if (rangeStart === 2) {
@@ -443,29 +459,29 @@ const ProductsPage = () => {
           rangeStart = Math.max(2, totalPages - 3);
         }
       }
-      
+
       // Add ellipsis if needed
       if (rangeStart > 2) {
         pageNumbers.push('...');
       }
-      
+
       // Add pages in range
       for (let i = rangeStart; i <= rangeEnd; i++) {
         pageNumbers.push(i);
       }
-      
+
       // Add ellipsis if needed
       if (rangeEnd < totalPages - 1) {
         pageNumbers.push('...');
       }
-      
+
       // Always show last page
       pageNumbers.push(totalPages);
     }
-    
+
     return pageNumbers;
   };
-  
+
   return (
     <Layout>
       <ProductsContainer>
@@ -481,7 +497,7 @@ const ProductsPage = () => {
             </SearchInputWrapper>
           </SearchFilterContainer>
         </ProductsHeader>
-        
+
         <FiltersContainer>
           <FilterSelect value={categoryFilter} onChange={handleCategoryChange}>
             <option value="">All Categories</option>
@@ -491,7 +507,7 @@ const ProductsPage = () => {
               </option>
             ))}
           </FilterSelect>
-          
+
           <FilterSelect value={`${sortBy}-${sortDirection}`} onChange={handleSortChange}>
             <option value="createdAt-desc">Newest</option>
             <option value="createdAt-asc">Oldest</option>
@@ -501,7 +517,7 @@ const ProductsPage = () => {
             <option value="name-desc">Name: Z to A</option>
           </FilterSelect>
         </FiltersContainer>
-        
+
         {productsLoading ? (
           <LoadingContainer>Loading products...</LoadingContainer>
         ) : productsError ? (
@@ -512,30 +528,33 @@ const ProductsPage = () => {
           <ProductsGrid>
             {productsData?.products?.edges?.map((product: any) => (
               <ProductCard key={product.id}>
-                <Link 
+                <Link
                   href={{
                     pathname: '/products/[id]',
-                    query: { id: product.id }
+                    query: { id: product.id },
                   }}
                   legacyBehavior
                 >
                   <a>
                     <ProductImageContainer>
                       <Image
-                        src={product.images[0] || 'https://placehold.co/300x200/eeeeee/999999/png?text=No+Image'}
+                        src={
+                          product.images[0] ||
+                          'https://placehold.co/300x200/eeeeee/999999/png?text=No+Image'
+                        }
                         alt={product.name}
                         fill
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: 'cover' }}
                       />
                     </ProductImageContainer>
                   </a>
                 </Link>
                 <ProductInfo>
                   <ProductCategory>{product.category?.name}</ProductCategory>
-                  <Link 
+                  <Link
                     href={{
                       pathname: '/products/[id]',
-                      query: { id: product.id }
+                      query: { id: product.id },
                     }}
                     legacyBehavior
                   >
@@ -545,7 +564,7 @@ const ProductsPage = () => {
                   </Link>
                   <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
                   <ProductActions>
-                    <Button 
+                    <Button
                       onClick={() => handleAddToCart(product.id)}
                       disabled={isAddingToCart[product.id]}
                       variant="primary"
@@ -559,7 +578,7 @@ const ProductsPage = () => {
             ))}
           </ProductsGrid>
         )}
-        
+
         {totalPages > 1 && (
           <Pagination>
             <PaginationButton
@@ -568,8 +587,8 @@ const ProductsPage = () => {
             >
               &lt;
             </PaginationButton>
-            
-            {getPageNumbers().map((page, index) => (
+
+            {getPageNumbers().map((page, index) =>
               page === '...' ? (
                 <PaginationButton key={`ellipsis-${index}`} disabled>
                   ...
@@ -583,8 +602,8 @@ const ProductsPage = () => {
                   {page}
                 </PaginationButton>
               )
-            ))}
-            
+            )}
+
             <PaginationButton
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage === totalPages}

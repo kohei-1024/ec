@@ -20,7 +20,7 @@ const CartEmpty = styled.div`
   text-align: center;
   padding: ${({ theme }) => theme.spacing.xxl} 0;
   color: ${({ theme }) => theme.colors.textLight};
-  
+
   p {
     margin-bottom: ${({ theme }) => theme.spacing.lg};
   }
@@ -31,7 +31,7 @@ const CartGrid = styled.div`
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.md};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  
+
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: 2fr 1fr;
   }
@@ -47,7 +47,7 @@ const CartItem = styled.div`
   display: flex;
   padding: ${({ theme }) => theme.spacing.md} 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  
+
   &:last-child {
     border-bottom: none;
   }
@@ -61,7 +61,7 @@ const CartItemImage = styled.div`
   margin-right: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   overflow: hidden;
-  
+
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 120px;
     height: 120px;
@@ -108,11 +108,11 @@ const QuantityButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightGray};
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -126,7 +126,7 @@ const QuantityInput = styled.input`
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   text-align: center;
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
@@ -140,7 +140,7 @@ const RemoveButton = styled.button`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   cursor: pointer;
   padding: 0;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -161,7 +161,7 @@ const SummaryRow = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing.md};
-  
+
   &:last-of-type {
     margin-bottom: ${({ theme }) => theme.spacing.lg};
     padding-bottom: ${({ theme }) => theme.spacing.md};
@@ -202,7 +202,7 @@ const ContinueShoppingLink = styled.a`
   display: block;
   text-align: center;
   color: ${({ theme }) => theme.colors.textLight};
-  
+
   &:hover {
     text-decoration: underline;
     color: ${({ theme }) => theme.colors.primary};
@@ -223,49 +223,58 @@ const LoadingOverlay = styled.div`
 `;
 
 const CartPage = () => {
-  const { cart, isLoading, error, updateCartItem, removeFromCart, clearCart, totalItems, subtotal } = useCart();
+  const {
+    cart,
+    isLoading,
+    error,
+    updateCartItem,
+    removeFromCart,
+    clearCart,
+    totalItems,
+    subtotal,
+  } = useCart();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [updating, setUpdating] = useState<Record<string, boolean>>({});
   const [processing, setProcessing] = useState(false);
-  
+
   const TAX_RATE = 0.08; // 8% tax
   const SHIPPING_COST = subtotal > 50 ? 0 : 5.99; // Free shipping over $50
-  
+
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax + SHIPPING_COST;
-  
+
   const handleQuantityChange = async (itemId: string, quantity: number) => {
     if (quantity < 1) return;
-    
+
     try {
-      setUpdating((prev) => ({ ...prev, [itemId]: true }));
+      setUpdating(prev => ({ ...prev, [itemId]: true }));
       await updateCartItem(itemId, quantity);
     } catch (error) {
       console.error('Failed to update quantity:', error);
     } finally {
-      setUpdating((prev) => ({ ...prev, [itemId]: false }));
+      setUpdating(prev => ({ ...prev, [itemId]: false }));
     }
   };
-  
+
   const handleRemoveItem = async (itemId: string) => {
     try {
-      setUpdating((prev) => ({ ...prev, [itemId]: true }));
+      setUpdating(prev => ({ ...prev, [itemId]: true }));
       await removeFromCart(itemId);
     } catch (error) {
       console.error('Failed to remove item:', error);
     }
   };
-  
+
   const handleCheckout = () => {
     if (!isAuthenticated) {
       router.push('/login?redirect=/checkout');
       return;
     }
-    
+
     router.push('/checkout');
   };
-  
+
   if (isLoading) {
     return (
       <Layout>
@@ -276,7 +285,7 @@ const CartPage = () => {
       </Layout>
     );
   }
-  
+
   if (error) {
     return (
       <Layout>
@@ -287,7 +296,7 @@ const CartPage = () => {
       </Layout>
     );
   }
-  
+
   if (!cart || cart.items.length === 0) {
     return (
       <Layout>
@@ -296,14 +305,16 @@ const CartPage = () => {
           <CartEmpty>
             <p>Your cart is empty</p>
             <Link href="/products" passHref legacyBehavior>
-              <Button as="a" variant="primary">Start Shopping</Button>
+              <Button as="a" variant="primary">
+                Start Shopping
+              </Button>
             </Link>
           </CartEmpty>
         </CartContainer>
       </Layout>
     );
   }
-  
+
   return (
     <Layout>
       {processing && (
@@ -311,38 +322,43 @@ const CartPage = () => {
           <div>Processing your order...</div>
         </LoadingOverlay>
       )}
-      
+
       <CartContainer>
-        <CartTitle>Your Cart ({totalItems} {totalItems === 1 ? 'item' : 'items'})</CartTitle>
-        
+        <CartTitle>
+          Your Cart ({totalItems} {totalItems === 1 ? 'item' : 'items'})
+        </CartTitle>
+
         <CartGrid>
           <CartItems>
-            {cart.items.map((item) => (
+            {cart.items.map(item => (
               <CartItem key={item.id}>
                 <CartItemImage>
-                  <Link 
+                  <Link
                     href={{
                       pathname: '/products/[id]',
-                      query: { id: item.product.id }
+                      query: { id: item.product.id },
                     }}
                     legacyBehavior
                   >
                     <a>
                       <Image
-                        src={item.product.images[0] || 'https://placehold.co/120x120/eeeeee/999999/png?text=No+Image'}
+                        src={
+                          item.product.images[0] ||
+                          'https://placehold.co/120x120/eeeeee/999999/png?text=No+Image'
+                        }
                         alt={item.product.name}
                         fill
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: 'cover' }}
                       />
                     </a>
                   </Link>
                 </CartItemImage>
-                
+
                 <CartItemDetails>
-                  <Link 
+                  <Link
                     href={{
                       pathname: '/products/[id]',
-                      query: { id: item.product.id }
+                      query: { id: item.product.id },
                     }}
                     legacyBehavior
                   >
@@ -351,19 +367,19 @@ const CartPage = () => {
                     </a>
                   </Link>
                   <CartItemPrice>${(item.product.price * item.quantity).toFixed(2)}</CartItemPrice>
-                  
+
                   <CartItemActions>
                     <QuantitySelector>
-                      <QuantityButton 
+                      <QuantityButton
                         onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                         disabled={updating[item.id] || item.quantity <= 1}
                       >
                         -
                       </QuantityButton>
-                      <QuantityInput 
-                        type="number" 
+                      <QuantityInput
+                        type="number"
                         value={item.quantity}
-                        onChange={(e) => {
+                        onChange={e => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value) && value > 0) {
                             handleQuantityChange(item.id, value);
@@ -372,15 +388,15 @@ const CartPage = () => {
                         min={1}
                         disabled={updating[item.id]}
                       />
-                      <QuantityButton 
+                      <QuantityButton
                         onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                         disabled={updating[item.id]}
                       >
                         +
                       </QuantityButton>
                     </QuantitySelector>
-                    
-                    <RemoveButton 
+
+                    <RemoveButton
                       onClick={() => handleRemoveItem(item.id)}
                       disabled={updating[item.id]}
                     >
@@ -391,39 +407,36 @@ const CartPage = () => {
               </CartItem>
             ))}
           </CartItems>
-          
+
           <CartSummary>
             <SummaryTitle>Order Summary</SummaryTitle>
-            
+
             <SummaryRow>
               <SummaryLabel>Subtotal</SummaryLabel>
               <SummaryValue>${subtotal.toFixed(2)}</SummaryValue>
             </SummaryRow>
-            
+
             <SummaryRow>
               <SummaryLabel>Tax (8%)</SummaryLabel>
               <SummaryValue>${tax.toFixed(2)}</SummaryValue>
             </SummaryRow>
-            
+
             <SummaryRow>
               <SummaryLabel>Shipping</SummaryLabel>
               <SummaryValue>
                 {SHIPPING_COST === 0 ? 'Free' : `$${SHIPPING_COST.toFixed(2)}`}
               </SummaryValue>
             </SummaryRow>
-            
+
             <TotalRow>
               <TotalLabel>Total</TotalLabel>
               <TotalValue>${total.toFixed(2)}</TotalValue>
             </TotalRow>
-            
-            <CheckoutButton 
-              variant="primary"
-              onClick={handleCheckout}
-            >
+
+            <CheckoutButton variant="primary" onClick={handleCheckout}>
               Proceed to Checkout
             </CheckoutButton>
-            
+
             <Link href="/products" passHref legacyBehavior>
               <ContinueShoppingLink>Continue Shopping</ContinueShoppingLink>
             </Link>

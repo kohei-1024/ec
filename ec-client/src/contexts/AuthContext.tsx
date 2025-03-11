@@ -11,7 +11,7 @@ const MOCK_USERS = [
     password: 'password123', // this would be hashed in a real app
     firstName: 'John',
     lastName: 'Doe',
-    role: 'CUSTOMER'
+    role: 'CUSTOMER',
   },
   {
     id: 'user-2',
@@ -19,8 +19,8 @@ const MOCK_USERS = [
     password: 'admin123', // this would be hashed in a real app
     firstName: 'Admin',
     lastName: 'User',
-    role: 'ADMIN'
-  }
+    role: 'ADMIN',
+  },
 ];
 
 interface AuthContextType {
@@ -60,9 +60,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     lastName: 'Doe',
     role: 'CUSTOMER',
     createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    updatedAt: new Date().toISOString(),
   };
-  
+
   const [user, setUser] = useState<User | null>(initialUser);
   const [token, setToken] = useState<string | null>('mock-token-123');
   const [isLoading, setIsLoading] = useState(false);
@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Store the mock user in localStorage for persistence
     localStorage.setItem('token', 'mock-token-123');
     localStorage.setItem('user', JSON.stringify(initialUser));
-    
+
     // Check if we have a token in localStorage
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
@@ -105,41 +105,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setError(null);
       setIsLoading(true);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // For development, use mock authentication
         const mockUser = MOCK_USERS.find(
           user => user.email === input.email && user.password === input.password
         );
-        
+
         if (!mockUser) {
           throw new Error('Invalid email or password');
         }
-        
+
         // Create a copy without the password
         const { password, ...userWithoutPassword } = mockUser;
-        
+
         // Set user and token
         setUser(userWithoutPassword as User);
         setToken('mock-token-123');
         setIsAuthenticated(true);
-        
+
         // Store in localStorage
         localStorage.setItem('token', 'mock-token-123');
         localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-        
+
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
         // For production, use the GraphQL mutation
         const { data } = await loginMutation({ variables: { input } });
-        
+
         if (data?.login) {
           const { token, user } = data.login as AuthPayload;
           setToken(token);
           setUser(user);
           setIsAuthenticated(true);
-          
+
           // Store in localStorage
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
@@ -157,14 +157,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setError(null);
       setIsLoading(true);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // For development, mock registration
         // Check if email is already in use
         if (MOCK_USERS.some(user => user.email === input.email)) {
           throw new Error('Email is already in use');
         }
-        
+
         // Create new mock user
         const newUser = {
           id: `user-${Date.now()}`,
@@ -173,28 +173,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           lastName: input.lastName,
           role: 'CUSTOMER',
         };
-        
+
         // Set user and token
         setUser(newUser as User);
         setToken('mock-token-123');
         setIsAuthenticated(true);
-        
+
         // Store in localStorage
         localStorage.setItem('token', 'mock-token-123');
         localStorage.setItem('user', JSON.stringify(newUser));
-        
+
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
         // For production, use the GraphQL mutation
         const { data } = await registerMutation({ variables: { input } });
-        
+
         if (data?.register) {
           const { token, user } = data.register as AuthPayload;
           setToken(token);
           setUser(user);
           setIsAuthenticated(true);
-          
+
           // Store in localStorage
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
@@ -212,7 +212,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setError(null);
       setIsLoading(true);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // For development, mock user update
         if (user) {
@@ -222,18 +222,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             lastName: input.lastName || user.lastName,
             email: input.email || user.email,
           };
-          
+
           // Update user in state and localStorage
           setUser(updatedUser);
           localStorage.setItem('user', JSON.stringify(updatedUser));
         }
-        
+
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
         // For production, use the GraphQL mutation
         const { data } = await updateUserMutation({ variables: { input } });
-        
+
         if (data?.updateUser) {
           setUser(data.updateUser);
           localStorage.setItem('user', JSON.stringify(data.updateUser));
@@ -251,7 +251,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
-    
+
     // Remove from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');

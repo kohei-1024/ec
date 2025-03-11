@@ -14,11 +14,11 @@ const FooterContent = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: ${({ theme }) => theme.spacing.xl};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
   }
@@ -40,7 +40,7 @@ const FooterLink = styled.a`
   color: ${({ theme }) => theme.colors.lightGray};
   text-decoration: none;
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.light};
     text-decoration: underline;
@@ -55,7 +55,7 @@ const BottomFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: column;
     gap: ${({ theme }) => theme.spacing.md};
@@ -77,7 +77,7 @@ const SocialLink = styled.a`
   color: ${({ theme }) => theme.colors.light};
   font-size: ${({ theme }) => theme.fontSizes.lg};
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
             <FooterLink>New Arrivals</FooterLink>
           </Link>
         </FooterSection>
-        
+
         <FooterSection>
           <FooterTitle>Customer Service</FooterTitle>
           <Link href="/contact" passHref legacyBehavior>
@@ -118,7 +118,7 @@ const Footer: React.FC = () => {
             <FooterLink>Returns & Exchanges</FooterLink>
           </Link>
         </FooterSection>
-        
+
         <FooterSection>
           <FooterTitle>About Us</FooterTitle>
           <Link href="/about" passHref legacyBehavior>
@@ -134,7 +134,7 @@ const Footer: React.FC = () => {
             <FooterLink>Press</FooterLink>
           </Link>
         </FooterSection>
-        
+
         <FooterSection>
           <FooterTitle>Legal</FooterTitle>
           <Link href="/terms" passHref legacyBehavior>
@@ -151,22 +151,40 @@ const Footer: React.FC = () => {
           </Link>
         </FooterSection>
       </FooterContent>
-      
+
       <BottomFooter>
-        <Copyright>
-          &copy; {new Date().getFullYear()} ShopApp. All rights reserved.
-        </Copyright>
+        <Copyright>&copy; {new Date().getFullYear()} ShopApp. All rights reserved.</Copyright>
         <SocialLinks>
-          <SocialLink href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <SocialLink
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
             📘
           </SocialLink>
-          <SocialLink href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <SocialLink
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Twitter"
+          >
             🐦
           </SocialLink>
-          <SocialLink href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <SocialLink
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
             📷
           </SocialLink>
-          <SocialLink href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+          <SocialLink
+            href="https://pinterest.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pinterest"
+          >
             📌
           </SocialLink>
         </SocialLinks>

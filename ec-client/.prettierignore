@@ -1,0 +1,8 @@
+.next/
+node_modules/
+*.d.ts
+public/
+build/
+dist/
+coverage/
+.storybook/

@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+public
+coverage
+jest.config.js
+jest.setup.js
+next.config.js
+**/*.d.ts

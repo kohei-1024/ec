@@ -18,7 +18,7 @@ const Card = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.sm};
   transition: ${({ theme }) => theme.transitions.default};
   background-color: ${({ theme }) => theme.colors.light};
-  
+
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.md};
     transform: translateY(-5px);
@@ -35,8 +35,9 @@ const WishlistButton = styled.button<{ $active: boolean }>`
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: ${({ theme, $active }) => $active ? theme.colors.primary : 'rgba(255, 255, 255, 0.8)'};
-  color: ${({ theme, $active }) => $active ? theme.colors.light : theme.colors.primary};
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.colors.primary : 'rgba(255, 255, 255, 0.8)'};
+  color: ${({ theme, $active }) => ($active ? theme.colors.light : theme.colors.primary)};
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -47,9 +48,10 @@ const WishlistButton = styled.button<{ $active: boolean }>`
   cursor: pointer;
   z-index: 1;
   transition: all 0.2s ease;
-  
+
   &:hover {
-    background-color: ${({ theme, $active }) => $active ? theme.colors.primaryDark : 'rgba(255, 255, 255, 1)'};
+    background-color: ${({ theme, $active }) =>
+      $active ? theme.colors.primaryDark : 'rgba(255, 255, 255, 1)'};
     transform: scale(1.1);
   }
 `;
@@ -91,7 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = React.useState(false);
   const isProductInWishlist = isInWishlist(product.id);
-  
+
   const handleAddToCart = async () => {
     try {
       setIsLoading(true);
@@ -117,10 +119,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       setIsWishlistLoading(false);
     }
   };
-  
+
   return (
     <Card>
-      <Link href={`/products/${product.id}`} passHref>
+      <Link href={`/products/${product.id}`} passHref legacyBehavior>
         <a>
           <ImageContainer>
             <Image
@@ -129,9 +131,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               layout="fill"
               objectFit="cover"
             />
-            <WishlistButton 
+            <WishlistButton
               type="button"
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
                 handleWishlistClick();
@@ -139,36 +141,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               $active={isProductInWishlist}
               disabled={isWishlistLoading}
             >
-              <Heart 
-                size={18} 
-                fill={isProductInWishlist ? 'white' : 'none'} 
-              />
+              <Heart size={18} fill={isProductInWishlist ? 'white' : 'none'} />
             </WishlistButton>
           </ImageContainer>
         </a>
       </Link>
-      
+
       <ProductContent>
-        <Link href={`/products/${product.id}`} passHref>
+        <Link href={`/products/${product.id}`} passHref legacyBehavior>
           <a>
             <ProductTitle>{product.name}</ProductTitle>
           </a>
         </Link>
-        
+
         <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-        
+
         <ProductDescription>{product.description}</ProductDescription>
-        
+
         <ButtonsContainer>
-          <Button 
-            variant="outlined" 
-            size="small"
-            onClick={handleAddToCart}
-            isLoading={isLoading}
-          >
+          <Button variant="outlined" size="small" onClick={handleAddToCart} isLoading={isLoading}>
             Add to Cart
           </Button>
-          
+
           <Link href={`/products/${product.id}`} passHref>
             <Button as="a" variant="primary" size="small">
               View Details

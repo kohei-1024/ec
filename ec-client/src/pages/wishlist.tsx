@@ -19,7 +19,7 @@ const WishlistTitle = styled.h1`
 const EmptyWishlist = styled.div`
   text-align: center;
   padding: ${({ theme }) => theme.spacing.xl} 0;
-  
+
   p {
     margin-bottom: ${({ theme }) => theme.spacing.lg};
     color: ${({ theme }) => theme.colors.textLight};
@@ -39,7 +39,7 @@ const WishlistCard = styled.div`
   background-color: ${({ theme }) => theme.colors.light};
   transition: ${({ theme }) => theme.transitions.default};
   box-shadow: ${({ theme }) => theme.shadows.sm};
-  
+
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.md};
     transform: translateY(-5px);
@@ -120,35 +120,31 @@ const WishlistPage: React.FC = () => {
     <Layout>
       <WishlistContainer>
         <WishlistTitle>My Wishlist</WishlistTitle>
-        
+
         {items.length === 0 ? (
           <EmptyWishlist>
             <p>Your wishlist is empty.</p>
-            <Button 
-              variant="primary"
-              onClick={() => router.push('/products')}
-            >
+            <Button variant="primary" onClick={() => router.push('/products')}>
               Browse Products
             </Button>
           </EmptyWishlist>
         ) : (
           <>
-            <ClearButton 
-              variant="outlined"
-              onClick={handleClearWishlist}
-              isLoading={isLoading}
-            >
+            <ClearButton variant="outlined" onClick={handleClearWishlist} isLoading={isLoading}>
               Clear Wishlist
             </ClearButton>
-            
+
             <WishlistGrid>
               {items.map(product => (
                 <WishlistCard key={product.id}>
-                  <Link href={`/products/${product.id}`} passHref>
+                  <Link href={`/products/${product.id}`} passHref legacyBehavior>
                     <a>
                       <ProductImageContainer>
                         <Image
-                          src={product.images[0] || 'https://placehold.co/600x400/eeeeee/999999/png?text=No+Image'}
+                          src={
+                            product.images[0] ||
+                            'https://placehold.co/600x400/eeeeee/999999/png?text=No+Image'
+                          }
                           alt={product.name}
                           layout="fill"
                           objectFit="cover"
@@ -156,15 +152,15 @@ const WishlistPage: React.FC = () => {
                       </ProductImageContainer>
                     </a>
                   </Link>
-                  
+
                   <ProductInfo>
-                    <Link href={`/products/${product.id}`} passHref>
+                    <Link href={`/products/${product.id}`} passHref legacyBehavior>
                       <a>
                         <ProductName>{product.name}</ProductName>
                       </a>
                     </Link>
                     <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-                    
+
                     <ButtonsContainer>
                       <Button
                         variant="outlined"
@@ -174,7 +170,7 @@ const WishlistPage: React.FC = () => {
                       >
                         Remove
                       </Button>
-                      
+
                       <Button
                         variant="primary"
                         size="small"

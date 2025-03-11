@@ -14,11 +14,11 @@ const HeroSection = styled.section`
   margin: -${({ theme }) => theme.spacing.lg};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   overflow: hidden;
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     height: 400px;
   }
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     height: 300px;
   }
@@ -51,7 +51,7 @@ const HeroImage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -61,7 +61,7 @@ const HeroImage = styled.div`
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
   }
-  
+
   img {
     object-fit: cover;
   }
@@ -75,7 +75,7 @@ const HeroButton = styled.a`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-weight: 600;
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     background-color: #2c3e8c;
     transform: translateY(-2px);
@@ -86,7 +86,7 @@ const SectionTitle = styled.h2`
   text-align: center;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -104,15 +104,15 @@ const FeaturedProducts = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: ${({ theme }) => theme.spacing.lg};
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
   }
@@ -124,7 +124,7 @@ const ProductCard = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.sm};
   transition: ${({ theme }) => theme.transitions.default};
   background-color: ${({ theme }) => theme.colors.light};
-  
+
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.md};
     transform: translateY(-5px);
@@ -156,11 +156,11 @@ const Categories = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: ${({ theme }) => theme.spacing.lg};
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
   }
@@ -173,7 +173,7 @@ const CategoryCard = styled.div`
   overflow: hidden;
   box-shadow: ${({ theme }) => theme.shadows.sm};
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.md};
     transform: scale(1.02);
@@ -186,7 +186,7 @@ const CategoryImage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -196,7 +196,7 @@ const CategoryImage = styled.div`
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
   }
-  
+
   img {
     object-fit: cover;
   }
@@ -238,7 +238,7 @@ const CTAButton = styled.a`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-weight: 600;
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightGray};
     transform: translateY(-2px);
@@ -251,44 +251,44 @@ const featuredProducts = [
     id: '1',
     name: 'Wireless Headphones',
     price: 129.99,
-    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones'
+    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones',
   },
   {
     id: '2',
     name: 'Smart Watch',
     price: 199.99,
-    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Smart+Watch'
+    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Smart+Watch',
   },
   {
     id: '3',
     name: 'Bluetooth Speaker',
     price: 79.99,
-    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker'
+    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker',
   },
   {
     id: '4',
     name: 'Laptop Stand',
     price: 49.99,
-    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Laptop+Stand'
-  }
+    image: 'https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Laptop+Stand',
+  },
 ];
 
 const categories = [
   {
     id: '1',
     name: 'Electronics',
-    image: 'https://placehold.co/300x200/333333/FFFFFF/png?text=Electronics'
+    image: 'https://placehold.co/300x200/333333/FFFFFF/png?text=Electronics',
   },
   {
     id: '2',
     name: 'Clothing',
-    image: 'https://placehold.co/300x200/333333/FFFFFF/png?text=Clothing'
+    image: 'https://placehold.co/300x200/333333/FFFFFF/png?text=Clothing',
   },
   {
     id: '3',
     name: 'Home & Garden',
-    image: 'https://placehold.co/300x200/333333/FFFFFF/png?text=Home'
-  }
+    image: 'https://placehold.co/300x200/333333/FFFFFF/png?text=Home',
+  },
 ];
 
 const Home = () => {
@@ -301,7 +301,7 @@ const Home = () => {
             alt="Hero image"
             fill
             priority
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: 'cover' }}
           />
         </HeroImage>
         <HeroContent>
@@ -318,11 +318,11 @@ const Home = () => {
       <section>
         <SectionTitle>Featured Products</SectionTitle>
         <FeaturedProducts>
-          {featuredProducts.map((product) => (
-            <Link 
+          {featuredProducts.map(product => (
+            <Link
               href={{
                 pathname: '/products/[id]',
-                query: { id: product.id }
+                query: { id: product.id },
               }}
               key={product.id}
               legacyBehavior
@@ -330,11 +330,11 @@ const Home = () => {
               <a>
                 <ProductCard>
                   <ProductImageContainer>
-                    <Image 
-                      src={product.image} 
-                      alt={product.name} 
-                      fill 
-                      style={{ objectFit: "cover" }} 
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      style={{ objectFit: 'cover' }}
                     />
                   </ProductImageContainer>
                   <ProductInfo>
@@ -351,23 +351,23 @@ const Home = () => {
       <section>
         <SectionTitle>Shop by Category</SectionTitle>
         <Categories>
-          {categories.map((category) => (
-            <Link 
+          {categories.map(category => (
+            <Link
               href={{
                 pathname: '/categories/[id]',
-                query: { id: category.id }
+                query: { id: category.id },
               }}
-              key={category.id} 
+              key={category.id}
               legacyBehavior
             >
               <a>
                 <CategoryCard>
                   <CategoryImage>
-                    <Image 
-                      src={category.image} 
-                      alt={category.name} 
-                      fill 
-                      style={{ objectFit: "cover" }} 
+                    <Image
+                      src={category.image}
+                      alt={category.name}
+                      fill
+                      style={{ objectFit: 'cover' }}
                     />
                   </CategoryImage>
                   <CategoryTitle>{category.name}</CategoryTitle>

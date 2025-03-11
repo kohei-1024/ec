@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { 
-  GET_CART, 
-  ADD_TO_CART, 
-  UPDATE_CART_ITEM, 
-  REMOVE_FROM_CART, 
-  CLEAR_CART 
+import {
+  GET_CART,
+  ADD_TO_CART,
+  UPDATE_CART_ITEM,
+  REMOVE_FROM_CART,
+  CLEAR_CART,
 } from '@/graphql/queries/cart';
 import { Cart, Product } from '@/types/models';
 import { useAuth } from './AuthContext';
@@ -23,8 +23,8 @@ const MOCK_CART = {
         description: 'Premium wireless headphones with noise cancellation technology.',
         price: 129.99,
         stock: 15,
-        images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones']
-      }
+        images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones'],
+      },
     },
     {
       id: 'item2',
@@ -35,10 +35,10 @@ const MOCK_CART = {
         description: 'Portable Bluetooth speaker with 360° sound and waterproof design.',
         price: 79.99,
         stock: 20,
-        images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker']
-      }
-    }
-  ]
+        images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker'],
+      },
+    },
+  ],
 };
 
 interface CartContextType {
@@ -74,7 +74,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { isAuthenticated } = useAuth();
 
   // GraphQL operations for production
-  const { data, loading: gqlLoading, refetch } = useQuery(GET_CART, {
+  const {
+    data,
+    loading: gqlLoading,
+    refetch,
+  } = useQuery(GET_CART, {
     skip: !isAuthenticated || process.env.NODE_ENV === 'development',
     fetchPolicy: 'network-only',
   });
@@ -88,7 +92,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const getCartData = async () => {
       setIsLoading(true);
-      
+
       try {
         if (process.env.NODE_ENV === 'development') {
           // Simulate network delay in development
@@ -106,27 +110,25 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsLoading(false);
       }
     };
-    
+
     getCartData();
   }, [data]);
 
   // Calculate cart totals
   const totalItems = cart?.items.reduce((total, item) => total + item.quantity, 0) || 0;
-  
-  const subtotal = cart?.items.reduce(
-    (total, item) => total + item.product.price * item.quantity, 
-    0
-  ) || 0;
+
+  const subtotal =
+    cart?.items.reduce((total, item) => total + item.product.price * item.quantity, 0) || 0;
 
   // Cart operations
   const addToCart = async (productId: string, quantity: number) => {
     try {
       setError(null);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // Mock implementation for development
         await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
-        
+
         // Find the product in our mock data
         const mockProductMap = {
           '1': {
@@ -135,7 +137,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             description: 'Premium wireless headphones with noise cancellation technology.',
             price: 129.99,
             stock: 15,
-            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones']
+            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Headphones'],
           },
           '2': {
             id: '2',
@@ -143,7 +145,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             description: 'Feature-packed smartwatch with health monitoring and notifications.',
             price: 199.99,
             stock: 8,
-            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Smart+Watch']
+            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Smart+Watch'],
           },
           '3': {
             id: '3',
@@ -151,7 +153,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             description: 'Portable Bluetooth speaker with 360° sound and waterproof design.',
             price: 79.99,
             stock: 20,
-            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker']
+            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Speaker'],
           },
           '4': {
             id: '4',
@@ -159,19 +161,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             description: 'Ergonomic laptop stand with adjustable height and angle.',
             price: 49.99,
             stock: 25,
-            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Laptop+Stand']
-          }
+            images: ['https://placehold.co/300x200/4a6cf7/FFFFFF/png?text=Laptop+Stand'],
+          },
         };
-        
+
         const product = mockProductMap[productId];
         if (!product) {
           throw new Error('Product not found');
         }
-        
+
         // Update mock cart
         const updatedCart = { ...MOCK_CART };
-        const existingItemIndex = updatedCart.items.findIndex(item => item.product.id === productId);
-        
+        const existingItemIndex = updatedCart.items.findIndex(
+          item => item.product.id === productId
+        );
+
         if (existingItemIndex >= 0) {
           // Update existing item
           updatedCart.items[existingItemIndex].quantity += quantity;
@@ -181,15 +185,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           updatedCart.items.push({
             id: newItemId,
             quantity,
-            product
+            product,
           });
         }
-        
+
         // Update state
         setCart(updatedCart as Cart);
       } else {
         // Real implementation for production
-        await addToCartMutation({ 
+        await addToCartMutation({
           variables: { productId, quantity },
           update: (cache, { data }) => {
             if (data?.addToCart) {
@@ -208,15 +212,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateCartItem = async (itemId: string, quantity: number) => {
     try {
       setError(null);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // Mock implementation for development
         await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
-        
+
         // Update mock cart
         const updatedCart = { ...MOCK_CART };
         const itemIndex = updatedCart.items.findIndex(item => item.id === itemId);
-        
+
         if (itemIndex >= 0) {
           updatedCart.items[itemIndex].quantity = quantity;
           setCart(updatedCart as Cart);
@@ -225,7 +229,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } else {
         // Real implementation for production
-        await updateCartItemMutation({ 
+        await updateCartItemMutation({
           variables: { id: itemId, quantity },
           update: () => {
             // Update the cart data
@@ -242,15 +246,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const removeFromCart = async (itemId: string) => {
     try {
       setError(null);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // Mock implementation for development
         await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
-        
+
         // Update mock cart
         const updatedCart = { ...MOCK_CART };
         const itemIndex = updatedCart.items.findIndex(item => item.id === itemId);
-        
+
         if (itemIndex >= 0) {
           updatedCart.items.splice(itemIndex, 1);
           setCart(updatedCart as Cart);
@@ -259,7 +263,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } else {
         // Real implementation for production
-        await removeFromCartMutation({ 
+        await removeFromCartMutation({
           variables: { id: itemId },
           update: () => {
             // Update the cart data
@@ -276,11 +280,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearCart = async () => {
     try {
       setError(null);
-      
+
       if (process.env.NODE_ENV === 'development') {
         // Mock implementation for development
         await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
-        
+
         // Clear mock cart
         const updatedCart = { ...MOCK_CART, items: [] };
         setCart(updatedCart as Cart);

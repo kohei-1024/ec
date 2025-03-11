@@ -36,7 +36,7 @@ const ErrorMessage = styled.div`
 const LoginLink = styled.p`
   text-align: center;
   margin-top: ${({ theme }) => theme.spacing.lg};
-  
+
   a {
     color: ${({ theme }) => theme.colors.primary};
     text-decoration: underline;
@@ -53,40 +53,40 @@ const RegisterPage: React.FC = () => {
   });
   const [formError, setFormError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { register, error: authError } = useAuth();
   const router = useRouter();
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const { firstName, lastName, email, password, confirmPassword } = formData;
-    
+
     // Simple validation
     if (!firstName || !lastName || !email || !password) {
       setFormError('Please fill in all fields');
       return;
     }
-    
+
     if (password !== confirmPassword) {
       setFormError('Passwords do not match');
       return;
     }
-    
+
     try {
       setIsLoading(true);
       setFormError(null);
-      
+
       await register({ firstName, lastName, email, password });
-      
+
       // Redirect to home page after successful registration
       router.push('/');
     } catch (error: any) {
@@ -95,18 +95,14 @@ const RegisterPage: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <Layout>
       <FormContainer>
         <FormTitle>Create Account</FormTitle>
-        
-        {(formError || authError) && (
-          <ErrorMessage>
-            {formError || authError}
-          </ErrorMessage>
-        )}
-        
+
+        {(formError || authError) && <ErrorMessage>{formError || authError}</ErrorMessage>}
+
         <form onSubmit={handleSubmit}>
           <FormGroup>
             <TextField
@@ -119,7 +115,7 @@ const RegisterPage: React.FC = () => {
               placeholder="Enter your first name"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <TextField
               label="Last Name"
@@ -131,7 +127,7 @@ const RegisterPage: React.FC = () => {
               placeholder="Enter your last name"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <TextField
               label="Email"
@@ -144,7 +140,7 @@ const RegisterPage: React.FC = () => {
               placeholder="Enter your email"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <TextField
               label="Password"
@@ -157,7 +153,7 @@ const RegisterPage: React.FC = () => {
               placeholder="Enter your password"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <TextField
               label="Confirm Password"
@@ -170,17 +166,12 @@ const RegisterPage: React.FC = () => {
               placeholder="Confirm your password"
             />
           </FormGroup>
-          
-          <Button
-            type="submit"
-            fullWidth
-            isLoading={isLoading}
-            variant="primary"
-          >
+
+          <Button type="submit" fullWidth isLoading={isLoading} variant="primary">
             Create Account
           </Button>
         </form>
-        
+
         <LoginLink>
           Already have an account? <Link href="/login">Log in</Link>
         </LoginLink>

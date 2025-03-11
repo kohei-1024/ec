@@ -28,7 +28,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.lg};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
   }
@@ -38,7 +38,7 @@ const MobileMenuIcon = styled.div`
   display: none;
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.xl};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: block;
   }
@@ -55,11 +55,11 @@ const MobileMenu = styled.div<{ $isOpen: boolean }>`
   padding: ${({ theme }) => theme.spacing.lg};
   box-shadow: ${({ theme }) => theme.shadows.md};
   z-index: ${({ theme }) => theme.zIndex.navbar};
-  
+
   a {
     padding: ${({ theme }) => theme.spacing.md} 0;
     border-bottom: 1px solid ${({ theme }) => theme.colors.lightGray};
-    
+
     &:last-child {
       border-bottom: none;
     }
@@ -71,7 +71,7 @@ const NavLink = styled.a<{ $active?: boolean }>`
   color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.text)};
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -94,7 +94,7 @@ const IconButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -122,13 +122,13 @@ const Header: React.FC = () => {
   const router = useRouter();
   const { items: wishlistItems } = useWishlist();
   const { cart } = useCart();
-  
+
   const isActive = (path: string) => router.pathname === path;
-  
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
-  
+
   return (
     <HeaderContainer>
       <Link href="/" passHref legacyBehavior>
@@ -136,7 +136,7 @@ const Header: React.FC = () => {
           <Logo>ShopApp</Logo>
         </a>
       </Link>
-      
+
       <Nav>
         <Link href="/" passHref legacyBehavior>
           <NavLink $active={isActive('/')}>Home</NavLink>
@@ -151,22 +151,18 @@ const Header: React.FC = () => {
           <NavLink $active={isActive('/about')}>About</NavLink>
         </Link>
       </Nav>
-      
+
       <ActionsContainer>
         <Link href="/cart" passHref legacyBehavior>
           <IconButton as="a" aria-label="Cart">
             <ShoppingCart size={20} />
-            {cart?.items?.length > 0 && (
-              <Badge>{cart.items.length}</Badge>
-            )}
+            {cart?.items?.length > 0 && <Badge>{cart.items.length}</Badge>}
           </IconButton>
         </Link>
         <Link href="/wishlist" passHref legacyBehavior>
           <IconButton as="a" aria-label="Wishlist">
             <Heart size={20} />
-            {wishlistItems?.length > 0 && (
-              <Badge>{wishlistItems.length}</Badge>
-            )}
+            {wishlistItems?.length > 0 && <Badge>{wishlistItems.length}</Badge>}
           </IconButton>
         </Link>
         <Link href="/profile" passHref legacyBehavior>
@@ -175,11 +171,9 @@ const Header: React.FC = () => {
           </IconButton>
         </Link>
       </ActionsContainer>
-      
-      <MobileMenuIcon onClick={toggleMobileMenu}>
-        {mobileMenuOpen ? '✕' : '☰'}
-      </MobileMenuIcon>
-      
+
+      <MobileMenuIcon onClick={toggleMobileMenu}>{mobileMenuOpen ? '✕' : '☰'}</MobileMenuIcon>
+
       <MobileMenu $isOpen={mobileMenuOpen}>
         <Link href="/" passHref legacyBehavior>
           <NavLink $active={isActive('/')}>Home</NavLink>

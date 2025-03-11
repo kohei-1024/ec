@@ -29,10 +29,12 @@ const StyledCard = styled.div<CardProps>`
   padding: ${({ padding, theme }) => (padding ? theme.spacing.lg : 0)};
   transition: ${({ theme }) => theme.transitions.default};
   cursor: ${({ onClick }) => (onClick ? 'pointer' : 'default')};
-  
+
   &:hover {
     box-shadow: ${({ onClick, elevation, theme }) =>
-      onClick ? getShadow(elevation === 'high' ? 'high' : 'medium', theme) : getShadow(elevation, theme)};
+      onClick
+        ? getShadow(elevation === 'high' ? 'high' : 'medium', theme)
+        : getShadow(elevation, theme)};
   }
 `;
 
@@ -44,12 +46,7 @@ const Card: React.FC<CardProps> = ({
   className,
 }) => {
   return (
-    <StyledCard
-      elevation={elevation}
-      padding={padding}
-      onClick={onClick}
-      className={className}
-    >
+    <StyledCard elevation={elevation} padding={padding} onClick={onClick} className={className}>
       {children}
     </StyledCard>
   );

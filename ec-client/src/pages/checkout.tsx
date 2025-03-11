@@ -21,7 +21,7 @@ const CheckoutGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.xl};
-  
+
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: 3fr 2fr;
   }
@@ -42,7 +42,7 @@ const FormGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.md};
-  
+
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: 1fr 1fr;
   }
@@ -82,7 +82,7 @@ const SummaryItem = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.sm};
   padding-bottom: ${({ theme }) => theme.spacing.sm};
   border-bottom: 1px solid ${({ theme }) => theme.colors.lightGray};
-  
+
   &:last-child {
     border-bottom: none;
   }
@@ -110,7 +110,7 @@ const SummaryRow = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing.sm};
-  
+
   &:last-of-type {
     margin-bottom: ${({ theme }) => theme.spacing.lg};
     padding-bottom: ${({ theme }) => theme.spacing.md};
@@ -167,11 +167,12 @@ const PaymentMethod = styled.label<{ $selected: boolean }>`
   display: flex;
   align-items: center;
   padding: ${({ theme }) => theme.spacing.md};
-  border: 2px solid ${({ theme, $selected }) => $selected ? theme.colors.primary : theme.colors.border};
+  border: 2px solid
+    ${({ theme, $selected }) => ($selected ? theme.colors.primary : theme.colors.border)};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   transition: ${({ theme }) => theme.transitions.default};
-  
+
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     background-color: ${({ theme }) => theme.colors.lightGray};
@@ -200,7 +201,7 @@ const CheckoutPage = () => {
   const { cart, isLoading: cartLoading, clearCart, totalItems, subtotal } = useCart();
   const { isAuthenticated, user } = useAuth();
   const [createOrder, { loading: orderLoading }] = useMutation(CREATE_ORDER);
-  
+
   // State for order information
   const [formData, setFormData] = useState({
     firstName: '',
@@ -218,21 +219,21 @@ const CheckoutPage = () => {
     cardExpiry: '',
     cardCVC: '',
   });
-  
+
   // Form validation state
   const [errors, setErrors] = useState<Record<string, string>>({});
-  
+
   // Order success state
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [orderId, setOrderId] = useState('');
-  
+
   // Calculate order totals
   const TAX_RATE = 0.08; // 8% tax
   const SHIPPING_COST = subtotal > 50 ? 0 : 5.99; // Free shipping over $50
-  
+
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax + SHIPPING_COST;
-  
+
   // Fill form with user data if available
   useEffect(() => {
     if (user) {
@@ -240,62 +241,71 @@ const CheckoutPage = () => {
         ...prev,
         firstName: user.firstName || prev.firstName,
         lastName: user.lastName || prev.lastName,
-        email: user.email || prev.email
+        email: user.email || prev.email,
       }));
     }
   }, [user]);
-  
+
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!isAuthenticated && !cartLoading) {
       router.push('/login?redirect=/checkout');
     }
   }, [isAuthenticated, cartLoading, router]);
-  
+
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear error when field is edited
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
+        [name]: '',
       }));
     }
   };
-  
+
   // Validate form
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     // Required fields
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'state', 'zipCode'];
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'email',
+      'phone',
+      'address',
+      'city',
+      'state',
+      'zipCode',
+    ];
     requiredFields.forEach(field => {
       if (!formData[field]) {
         newErrors[field] = 'This field is required';
       }
     });
-    
+
     // Email validation
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     // Phone validation
     if (formData.phone && !/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
       newErrors.phone = 'Please enter a valid 10-digit phone number';
     }
-    
+
     // ZIP code validation
     if (formData.zipCode && !/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
       newErrors.zipCode = 'Please enter a valid ZIP code';
     }
-    
+
     // Credit card validation
     if (formData.paymentMethod === 'credit-card') {
       if (!formData.cardNumber) {
@@ -303,48 +313,48 @@ const CheckoutPage = () => {
       } else if (!/^\d{16}$/.test(formData.cardNumber.replace(/\s/g, ''))) {
         newErrors.cardNumber = 'Please enter a valid 16-digit card number';
       }
-      
+
       if (!formData.cardName) {
         newErrors.cardName = 'Name on card is required';
       }
-      
+
       if (!formData.cardExpiry) {
         newErrors.cardExpiry = 'Expiry date is required';
       } else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.cardExpiry)) {
         newErrors.cardExpiry = 'Please use format MM/YY';
       }
-      
+
       if (!formData.cardCVC) {
         newErrors.cardCVC = 'Security code is required';
       } else if (!/^\d{3,4}$/.test(formData.cardCVC)) {
         newErrors.cardCVC = 'Please enter a valid security code';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   // Submit order
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     // For development, we'll mock the order creation
     if (process.env.NODE_ENV === 'development') {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       // Generate a mock order ID
       const mockOrderId = `ORDER-${Math.floor(Math.random() * 10000)}`;
-      
+
       // Set success state
       setOrderSuccess(true);
       setOrderId(mockOrderId);
-      
+
       // Clear cart
       clearCart();
     } else {
@@ -361,15 +371,16 @@ const CheckoutPage = () => {
                 state: formData.state,
                 zipCode: formData.zipCode,
                 country: formData.country,
-                phone: formData.phone
+                phone: formData.phone,
               }),
-              paymentId: formData.paymentMethod === 'credit-card' 
-                ? `CARD-${formData.cardNumber.slice(-4)}` 
-                : `${formData.paymentMethod.toUpperCase()}`
-            }
-          }
+              paymentId:
+                formData.paymentMethod === 'credit-card'
+                  ? `CARD-${formData.cardNumber.slice(-4)}`
+                  : `${formData.paymentMethod.toUpperCase()}`,
+            },
+          },
         });
-        
+
         if (data?.createOrder) {
           setOrderSuccess(true);
           setOrderId(data.createOrder.id);
@@ -378,12 +389,12 @@ const CheckoutPage = () => {
       } catch (error) {
         console.error('Error creating order:', error);
         setErrors({
-          submit: 'There was a problem processing your order. Please try again.'
+          submit: 'There was a problem processing your order. Please try again.',
         });
       }
     }
   };
-  
+
   // Loading states
   if (cartLoading) {
     return (
@@ -395,7 +406,7 @@ const CheckoutPage = () => {
       </Layout>
     );
   }
-  
+
   // Empty cart
   if (!cart || cart.items.length === 0) {
     return (
@@ -403,7 +414,7 @@ const CheckoutPage = () => {
         <CheckoutContainer>
           <CheckoutTitle>Checkout</CheckoutTitle>
           <div>Your cart is empty. Please add items to your cart before checking out.</div>
-          <Button 
+          <Button
             onClick={() => router.push('/products')}
             variant="primary"
             style={{ marginTop: '1rem' }}
@@ -414,7 +425,7 @@ const CheckoutPage = () => {
       </Layout>
     );
   }
-  
+
   // Order success
   if (orderSuccess) {
     return (
@@ -426,23 +437,19 @@ const CheckoutPage = () => {
             <p>Your order #{orderId} has been placed successfully.</p>
             <p>You will receive a confirmation email shortly.</p>
           </SuccessMessage>
-          <Button 
-            onClick={() => router.push('/products')}
-            variant="primary"
-            fullWidth
-          >
+          <Button onClick={() => router.push('/products')} variant="primary" fullWidth>
             Continue Shopping
           </Button>
         </CheckoutContainer>
       </Layout>
     );
   }
-  
+
   return (
     <Layout>
       <CheckoutContainer>
         <CheckoutTitle>Checkout</CheckoutTitle>
-        
+
         <form onSubmit={handleSubmit}>
           <CheckoutGrid>
             <div>
@@ -492,7 +499,7 @@ const CheckoutPage = () => {
                   </FormRow>
                 </FormGrid>
               </FormSection>
-              
+
               <FormSection>
                 <SectionTitle>Shipping Address</SectionTitle>
                 <FormGrid>
@@ -548,15 +555,12 @@ const CheckoutPage = () => {
                   </FormRow>
                 </FormGrid>
               </FormSection>
-              
+
               <FormSection>
                 <SectionTitle>Payment Method</SectionTitle>
                 <PaymentMethodSelector>
                   {paymentMethods.map(method => (
-                    <PaymentMethod 
-                      key={method.id} 
-                      $selected={formData.paymentMethod === method.id}
-                    >
+                    <PaymentMethod key={method.id} $selected={formData.paymentMethod === method.id}>
                       <RadioInput
                         type="radio"
                         name="paymentMethod"
@@ -569,7 +573,7 @@ const CheckoutPage = () => {
                     </PaymentMethod>
                   ))}
                 </PaymentMethodSelector>
-                
+
                 {formData.paymentMethod === 'credit-card' && (
                   <FormGrid>
                     <FullWidthRow>
@@ -618,15 +622,13 @@ const CheckoutPage = () => {
                   </FormGrid>
                 )}
               </FormSection>
-              
-              {errors.submit && (
-                <FormError>{errors.submit}</FormError>
-              )}
+
+              {errors.submit && <FormError>{errors.submit}</FormError>}
             </div>
-            
+
             <OrderSummary>
               <SummaryTitle>Order Summary</SummaryTitle>
-              
+
               <SummaryItems>
                 {cart.items.map(item => (
                   <SummaryItem key={item.id}>
@@ -639,35 +641,30 @@ const CheckoutPage = () => {
                   </SummaryItem>
                 ))}
               </SummaryItems>
-              
+
               <SummaryRow>
                 <SummaryLabel>Subtotal</SummaryLabel>
                 <SummaryValue>${subtotal.toFixed(2)}</SummaryValue>
               </SummaryRow>
-              
+
               <SummaryRow>
                 <SummaryLabel>Tax (8%)</SummaryLabel>
                 <SummaryValue>${tax.toFixed(2)}</SummaryValue>
               </SummaryRow>
-              
+
               <SummaryRow>
                 <SummaryLabel>Shipping</SummaryLabel>
                 <SummaryValue>
                   {SHIPPING_COST === 0 ? 'Free' : `$${SHIPPING_COST.toFixed(2)}`}
                 </SummaryValue>
               </SummaryRow>
-              
+
               <TotalRow>
                 <TotalLabel>Total</TotalLabel>
                 <TotalValue>${total.toFixed(2)}</TotalValue>
               </TotalRow>
-              
-              <Button
-                type="submit"
-                variant="primary"
-                fullWidth
-                isLoading={orderLoading}
-              >
+
+              <Button type="submit" variant="primary" fullWidth isLoading={orderLoading}>
                 Place Order
               </Button>
             </OrderSummary>

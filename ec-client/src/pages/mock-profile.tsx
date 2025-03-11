@@ -28,7 +28,7 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -69,11 +69,11 @@ const Email = styled.p`
 const NavItem = styled.div<{ active?: boolean }>`
   padding: 12px 16px;
   cursor: pointer;
-  background-color: ${props => props.active ? '#f0f0f0' : 'transparent'};
+  background-color: ${props => (props.active ? '#f0f0f0' : 'transparent')};
   border-radius: 4px;
   margin-bottom: 5px;
-  font-weight: ${props => props.active ? 'bold' : 'normal'};
-  
+  font-weight: ${props => (props.active ? 'bold' : 'normal')};
+
   &:hover {
     background-color: #f0f0f0;
   }
@@ -93,7 +93,7 @@ const OrderHeader = styled.div`
   padding: 15px;
   background-color: #f7f7f7;
   border-bottom: 1px solid #e0e0e0;
-  
+
   @media (max-width: 500px) {
     flex-direction: column;
     align-items: flex-start;
@@ -108,7 +108,7 @@ const OrderNumber = styled.h3`
 const OrderInfo = styled.div`
   display: flex;
   gap: 15px;
-  
+
   @media (max-width: 500px) {
     margin-top: 10px;
   }
@@ -124,12 +124,18 @@ const OrderStatus = styled.span<{ status: string }>`
   border-radius: 4px;
   background-color: ${props => {
     switch (props.status) {
-      case 'DELIVERED': return '#4caf50';
-      case 'SHIPPED': return '#2196f3';
-      case 'PROCESSING': return '#ff9800';
-      case 'PENDING': return '#ffc107';
-      case 'CANCELLED': return '#f44336';
-      default: return '#e0e0e0';
+      case 'DELIVERED':
+        return '#4caf50';
+      case 'SHIPPED':
+        return '#2196f3';
+      case 'PROCESSING':
+        return '#ff9800';
+      case 'PENDING':
+        return '#ffc107';
+      case 'CANCELLED':
+        return '#f44336';
+      default:
+        return '#e0e0e0';
     }
   }};
   color: white;
@@ -149,7 +155,7 @@ const OrderItem = styled.div`
   display: flex;
   gap: 15px;
   margin-bottom: 10px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -203,7 +209,7 @@ const Input = styled.input`
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
-  
+
   &:focus {
     outline: none;
     border-color: #2196f3;
@@ -211,17 +217,17 @@ const Input = styled.input`
 `;
 
 const Button = styled.button<{ primary?: boolean }>`
-  background-color: ${props => props.primary ? '#2196f3' : 'white'};
-  color: ${props => props.primary ? 'white' : '#333'};
-  border: 1px solid ${props => props.primary ? '#2196f3' : '#ddd'};
+  background-color: ${props => (props.primary ? '#2196f3' : 'white')};
+  color: ${props => (props.primary ? 'white' : '#333')};
+  border: 1px solid ${props => (props.primary ? '#2196f3' : '#ddd')};
   padding: 10px 20px;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
   margin-right: 10px;
-  
+
   &:hover {
-    background-color: ${props => props.primary ? '#1976d2' : '#f5f5f5'};
+    background-color: ${props => (props.primary ? '#1976d2' : '#f5f5f5')};
   }
 `;
 
@@ -231,7 +237,7 @@ const MOCK_USER = {
   firstName: 'John',
   lastName: 'Doe',
   email: 'john.doe@example.com',
-  role: 'CUSTOMER'
+  role: 'CUSTOMER',
 };
 
 const MOCK_ORDERS = [
@@ -246,10 +252,10 @@ const MOCK_ORDERS = [
           id: '1',
           name: 'Wireless Headphones',
           price: 129.99,
-          images: []
+          images: [],
         },
         quantity: 1,
-        price: 129.99
+        price: 129.99,
       },
       {
         id: 'item2',
@@ -257,13 +263,13 @@ const MOCK_ORDERS = [
           id: '4',
           name: 'Laptop Stand',
           price: 29.98,
-          images: []
+          images: [],
         },
         quantity: 1,
-        price: 29.98
-      }
+        price: 29.98,
+      },
     ],
-    createdAt: '2023-06-15T10:30:00Z'
+    createdAt: '2023-06-15T10:30:00Z',
   },
   {
     id: 'ORDER-5678',
@@ -276,13 +282,13 @@ const MOCK_ORDERS = [
           id: '3',
           name: 'Bluetooth Speaker',
           price: 79.99,
-          images: []
+          images: [],
         },
         quantity: 1,
-        price: 79.99
-      }
+        price: 79.99,
+      },
     ],
-    createdAt: '2023-07-22T14:45:00Z'
+    createdAt: '2023-07-22T14:45:00Z',
   },
   {
     id: 'ORDER-9012',
@@ -295,14 +301,14 @@ const MOCK_ORDERS = [
           id: '2',
           name: 'Smart Watch',
           price: 199.99,
-          images: []
+          images: [],
         },
         quantity: 2,
-        price: 399.98
-      }
+        price: 399.98,
+      },
     ],
-    createdAt: '2023-08-10T09:15:00Z'
-  }
+    createdAt: '2023-08-10T09:15:00Z',
+  },
 ];
 
 const MockProfilePage: React.FC = () => {
@@ -313,67 +319,64 @@ const MockProfilePage: React.FC = () => {
     email: MOCK_USER.email,
     currentPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
-  
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setProfileForm(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert('Profile updated successfully!');
   };
-  
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     }).format(date);
   };
-  
+
   return (
     <Layout>
       <Container>
         <Title>My Account</Title>
-        
+
         <Grid>
           <Sidebar>
             <Card>
               <ProfileInfo>
                 <Avatar>{MOCK_USER.firstName.charAt(0)}</Avatar>
-                <Name>{MOCK_USER.firstName} {MOCK_USER.lastName}</Name>
+                <Name>
+                  {MOCK_USER.firstName} {MOCK_USER.lastName}
+                </Name>
                 <Email>{MOCK_USER.email}</Email>
               </ProfileInfo>
-              
-              <NavItem 
-                active={activeTab === 'orders'} 
-                onClick={() => handleTabChange('orders')}
-              >
+
+              <NavItem active={activeTab === 'orders'} onClick={() => handleTabChange('orders')}>
                 My Orders
               </NavItem>
-              <NavItem 
-                active={activeTab === 'settings'} 
+              <NavItem
+                active={activeTab === 'settings'}
                 onClick={() => handleTabChange('settings')}
               >
                 Account Settings
               </NavItem>
-              <NavItem onClick={() => alert('Logged out successfully')}>
-                Logout
-              </NavItem>
+              <NavItem onClick={() => alert('Logged out successfully')}>Logout</NavItem>
             </Card>
           </Sidebar>
-          
+
           <Content>
             {activeTab === 'orders' && (
               <Card>
@@ -408,7 +411,7 @@ const MockProfilePage: React.FC = () => {
                 ))}
               </Card>
             )}
-            
+
             {activeTab === 'settings' && (
               <Card>
                 <h2>Account Settings</h2>
@@ -441,7 +444,7 @@ const MockProfilePage: React.FC = () => {
                       onChange={handleInputChange}
                     />
                   </FormGroup>
-                  
+
                   <h2>Change Password</h2>
                   <FormGroup>
                     <Label htmlFor="currentPassword">Current Password</Label>
@@ -473,9 +476,11 @@ const MockProfilePage: React.FC = () => {
                       onChange={handleInputChange}
                     />
                   </FormGroup>
-                  
+
                   <div>
-                    <Button primary type="submit">Save Changes</Button>
+                    <Button primary type="submit">
+                      Save Changes
+                    </Button>
                     <Button type="button">Cancel</Button>
                   </div>
                 </form>
