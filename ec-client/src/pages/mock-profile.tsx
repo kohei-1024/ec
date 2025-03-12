@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  // useEffect
+} from 'react';
 import styled from 'styled-components';
 import { Layout } from '@/components/layout';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 // Simple styled components for the mock page
 const Container = styled.div`

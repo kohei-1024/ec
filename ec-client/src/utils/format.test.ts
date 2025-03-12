@@ -13,13 +13,19 @@ describe('formatDate', () => {
   it('formats a date string to a human-readable format', () => {
     // Mock Date to ensure consistent testing
     const originalDate = global.Date;
-    global.Date = jest.fn(() => new Date('2023-01-01T00:00:00Z')) as any;
+
+    // Create a fixed date instance before mocking the constructor
+    const fixedDate = new originalDate('2023-01-01T00:00:00Z');
+
+    // Mock Date constructor to return the fixed date
+    global.Date = jest.fn(() => fixedDate) as any;
 
     // Test with fixed date
     const formattedDate = formatDate('2023-01-01T00:00:00Z');
+
     expect(formattedDate).toMatch(/Jan 1, 2023/);
 
-    // Restore original Date
+    // Restore the original Date constructor
     global.Date = originalDate;
   });
 });

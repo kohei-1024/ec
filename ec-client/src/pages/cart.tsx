@@ -229,14 +229,17 @@ const CartPage = () => {
     error,
     updateCartItem,
     removeFromCart,
-    clearCart,
+    // clearCart,
     totalItems,
     subtotal,
   } = useCart();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [updating, setUpdating] = useState<Record<string, boolean>>({});
-  const [processing, setProcessing] = useState(false);
+  const [
+    processing,
+    // setProcessing
+  ] = useState(false);
 
   const TAX_RATE = 0.08; // 8% tax
   const SHIPPING_COST = subtotal > 50 ? 0 : 5.99; // Free shipping over $50
@@ -304,10 +307,8 @@ const CartPage = () => {
           <CartTitle>Your Cart</CartTitle>
           <CartEmpty>
             <p>Your cart is empty</p>
-            <Link href="/products" className='inline-block'>
-              <Button variant="primary">
-                Start Shopping
-              </Button>
+            <Link href="/products" className="inline-block">
+              <Button variant="primary">Start Shopping</Button>
             </Link>
           </CartEmpty>
         </CartContainer>

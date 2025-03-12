@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Layout } from '@/components/layout';
-import { GetStaticProps } from 'next';
+// import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 

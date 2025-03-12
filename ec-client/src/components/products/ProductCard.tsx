@@ -163,7 +163,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             Add to Cart
           </Button>
 
-          <Link href={`/products/${product.id}`} className='inline-block'>
+          <Link href={`/products/${product.id}`} className="inline-block">
             <Button variant="primary" size="small">
               View Details
             </Button>

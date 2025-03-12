@@ -7,7 +7,8 @@ import {
   REMOVE_FROM_CART,
   CLEAR_CART,
 } from '@/graphql/queries/cart';
-import { Cart, Product } from '@/types/models';
+import { Cart } from '@/types/models';
+// import { Product } from '@/types/models';
 import { useAuth } from './AuthContext';
 
 // Mock cart for development
@@ -76,7 +77,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // GraphQL operations for production
   const {
     data,
-    loading: gqlLoading,
+    // loading,
     refetch,
   } = useQuery(GET_CART, {
     skip: !isAuthenticated || process.env.NODE_ENV === 'development',

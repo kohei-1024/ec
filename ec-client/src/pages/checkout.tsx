@@ -198,7 +198,13 @@ const paymentMethods = [
 
 const CheckoutPage = () => {
   const router = useRouter();
-  const { cart, isLoading: cartLoading, clearCart, totalItems, subtotal } = useCart();
+  const {
+    cart,
+    isLoading: cartLoading,
+    clearCart,
+    // totalItems,
+    subtotal,
+  } = useCart();
   const { isAuthenticated, user } = useAuth();
   const [createOrder, { loading: orderLoading }] = useMutation(CREATE_ORDER);
 

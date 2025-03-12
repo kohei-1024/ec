@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN, REGISTER, UPDATE_USER } from '@/graphql/mutations/auth';
 import { User, LoginInput, RegisterInput, AuthPayload } from '@/types/models';
@@ -53,15 +53,19 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Set initial mock user for easier testing
-  const initialUser = {
-    id: 'user-1',
-    email: 'user@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    role: 'CUSTOMER',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  } as const;
+  const initialUser = useMemo(
+    () =>
+      ({
+        id: 'user-1',
+        email: 'user@example.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        role: 'CUSTOMER',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }) as const,
+    []
+  );
 
   const [user, setUser] = useState<User | null>(initialUser);
   const [token, setToken] = useState<string | null>('mock-token-123');
@@ -95,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     setIsLoading(false);
-  }, []);
+  }, [initialUser]);
 
   const clearError = () => {
     setError(null);

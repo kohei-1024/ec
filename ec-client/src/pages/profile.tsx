@@ -5,7 +5,7 @@ import { Layout } from '@/components/layout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useQuery } from '@apollo/client';
 import { GET_USER_ORDERS } from '@/graphql/mutations/orders';
-import Link from 'next/link';
+// import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import TextField from '@/components/ui/TextField';
@@ -409,7 +409,7 @@ const ProfilePage = () => {
     if (Object.keys(errors).length === 0) {
       // In development, just log the form data
       if (process.env.NODE_ENV === 'development') {
-        console.log('Profile form submitted:', profileForm);
+        console.warn('Profile form submitted:', profileForm);
         alert('Profile updated successfully');
       } else {
         // In production, call the updateUser mutation
@@ -506,7 +506,7 @@ const ProfilePage = () => {
                   <div>Loading your orders...</div>
                 ) : orders.length === 0 ? (
                   <div>
-                    <p>You haven't placed any orders yet.</p>
+                    <p>You haven&apos;t placed any orders yet.</p>
                     <Button
                       onClick={() => router.push('/products')}
                       variant="primary"

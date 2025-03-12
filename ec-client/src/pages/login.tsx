@@ -114,7 +114,7 @@ const LoginPage: React.FC = () => {
         </form>
 
         <SignUpLink>
-          Don't have an account? <Link href="/register">Sign up</Link>
+          Don&apos;t have an account? <Link href="/register">Sign up</Link>
         </SignUpLink>
       </FormContainer>
     </Layout>

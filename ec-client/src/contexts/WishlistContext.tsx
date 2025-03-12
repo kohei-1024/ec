@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useMutation } from '@apollo/client';
+// import { useMutation } from '@apollo/client';
 import { Product } from '@/types/models';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 // import { Badge } from '@/components/Badge';
 
 // Define these GraphQL mutations later
@@ -107,7 +107,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [items, setItems] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { user, isAuthenticated } = useAuth();
+  // const { user, isAuthenticated } = useAuth();
 
   // Mock mutation functions
   // const [addToWishlistMutation] = useMutation(ADD_TO_WISHLIST);

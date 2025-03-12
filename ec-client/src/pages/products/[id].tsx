@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+// import { GetServerSideProps } from 'next';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import { Layout } from '@/components/layout';
@@ -11,7 +11,7 @@ import Button from '@/components/ui/Button';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { Heart } from 'react-feather';
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+// import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { Product } from '@/types/models';
 
 // Mock data for development
@@ -152,15 +152,15 @@ const Breadcrumbs = styled.div`
   color: ${({ theme }) => theme.colors.textLight};
 `;
 
-const BreadcrumbLink = styled.a`
-  color: ${({ theme }) => theme.colors.textLight};
-  text-decoration: none;
+// const BreadcrumbLink = styled.a`
+//   color: ${({ theme }) => theme.colors.textLight};
+//   text-decoration: none;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-    text-decoration: underline;
-  }
-`;
+//   &:hover {
+//     color: ${({ theme }) => theme.colors.primary};
+//     text-decoration: underline;
+//   }
+// `;
 
 const ProductTitle = styled.h1`
   margin-bottom: ${({ theme }) => theme.spacing.sm};
@@ -276,32 +276,32 @@ const ProductDescription = styled.div`
   }
 `;
 
-const RelatedProducts = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.xxl};
+// const RelatedProducts = styled.div`
+//   margin-top: ${({ theme }) => theme.spacing.xxl};
 
-  h2 {
-    text-align: center;
-    margin-bottom: ${({ theme }) => theme.spacing.xl};
-    position: relative;
+//   h2 {
+//     text-align: center;
+//     margin-bottom: ${({ theme }) => theme.spacing.xl};
+//     position: relative;
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background-color: ${({ theme }) => theme.colors.primary};
-    }
-  }
-`;
+//     &::after {
+//       content: '';
+//       position: absolute;
+//       bottom: -10px;
+//       left: 50%;
+//       transform: translateX(-50%);
+//       width: 60px;
+//       height: 3px;
+//       background-color: ${({ theme }) => theme.colors.primary};
+//     }
+//   }
+// `;
 
-const RelatedProductsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
-`;
+// const RelatedProductsGrid = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+//   gap: ${({ theme }) => theme.spacing.lg};
+// `;
 
 const ProductDetailPage = () => {
   const router = useRouter();
@@ -312,14 +312,14 @@ const ProductDetailPage = () => {
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<null | Product>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<null | { message: string }>(null);
 
   // GraphQL query for development with server
   const {
     data,
-    loading: gqlLoading,
+    // loading: gqlLoading,
     error: gqlError,
   } = useQuery(GET_PRODUCT, {
     variables: { id },
@@ -354,7 +354,8 @@ const ProductDetailPage = () => {
           }
         }
       } catch (err) {
-        setError(err);
+        const errorMessage = err instanceof Error ? err.message : 'Anknown error';
+        setError({ message: errorMessage });
       } finally {
         setLoading(false);
       }

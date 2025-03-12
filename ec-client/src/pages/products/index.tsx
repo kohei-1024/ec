@@ -272,19 +272,30 @@ const ProductsPage = () => {
   const [sortDirection, setSortDirection] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState<Record<string, boolean>>({});
-  const [productsData, setProductsData] = useState(null);
-  const [categoriesData, setCategoriesData] = useState(null);
+  const [productsData, setProductsData] = useState<null | {
+    products: {
+      edges: any[];
+      totalCount: number;
+    };
+  }>(null);
+  const [categoriesData, setCategoriesData] = useState<null | {
+    categories: {
+      id: string;
+      name: string;
+      description?: string;
+    }[];
+  }>(null);
   const [productsLoading, setProductsLoading] = useState(true);
-  const [productsError, setProductsError] = useState(null);
+  const [productsError, setProductsError] = useState<null | { message: string }>(null);
 
   const ITEMS_PER_PAGE = 8;
 
   // Fetch products from GraphQL in production
   const {
     data: gqlProductsData,
-    loading: gqlProductsLoading,
+    // loading: gqlProductsLoading,
     error: gqlProductsError,
-    refetch,
+    // refetch,
   } = useQuery(GET_PRODUCTS, {
     variables: {
       search: searchTerm || undefined,
@@ -299,7 +310,10 @@ const ProductsPage = () => {
   });
 
   // Fetch categories from GraphQL in production
-  const { data: gqlCategoriesData, loading: gqlCategoriesLoading } = useQuery(GET_CATEGORIES, {
+  const {
+    data: gqlCategoriesData,
+    // loading: gqlCategoriesLoading
+  } = useQuery(GET_CATEGORIES, {
     skip: process.env.NODE_ENV === 'development', // Skip in development
   });
 
@@ -379,7 +393,8 @@ const ProductsPage = () => {
           }
         }
       } catch (err) {
-        setProductsError(err);
+        const errMessage = err instanceof Error ? err.message : 'Unknown err';
+        setProductsError({ message: errMessage });
       } finally {
         setProductsLoading(false);
       }
@@ -435,7 +450,7 @@ const ProductsPage = () => {
 
   // Generate page numbers for pagination
   const getPageNumbers = () => {
-    const pageNumbers = [];
+    const pageNumbers: (number | string)[] = [];
     const maxPagesToShow = 5;
 
     if (totalPages <= maxPagesToShow) {
