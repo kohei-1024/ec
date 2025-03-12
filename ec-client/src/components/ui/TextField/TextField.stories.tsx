@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TextField from './TextField';
 import { Mail, Lock, Search as SearchIcon, Eye, EyeOff } from 'react-feather';
+import { useState } from 'react';
 
 const meta = {
   title: 'UI/TextField',
@@ -118,8 +119,8 @@ export const Disabled: Story = {
 // Example of a more complex story with state
 export const PasswordWithToggle: Story = {
   render: function Render(args) {
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [password, setPassword] = React.useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [password, setPassword] = useState('');
 
     return (
       <TextField
